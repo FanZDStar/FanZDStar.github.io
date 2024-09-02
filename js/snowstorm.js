@@ -1,3 +1,8 @@
+// 怎么回事怎么回事啊啊啊啊
+
+
+
+
 (function () {
   // 获取窗口的宽度和高度
   var PageX = window.innerWidth,
