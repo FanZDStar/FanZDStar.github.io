@@ -49,7 +49,20 @@
 
 
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/ilyabirman-likely@2/release/likely.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/theme-next/theme-next-needmoreshare2@1/needsharebutton.min.css"><style>
+#needsharebutton-postbottom {
+  cursor: pointer;
+  height: 26px;
+  margin-top: 10px;
+  position: relative;
+}
+#needsharebutton-postbottom .btn {
+  border: 1px solid $btn-default-border-color;
+  border-radius: 3px;
+  display: initial;
+  padding: 1px 4px;
+}
+</style>
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -250,19 +263,12 @@
     
 
     <footer class="post-footer"><div class="post-widgets">
-    <div class="likely">
-        <div class="twitter">Tweet</div>
-        <div class="facebook">Share</div>
-        <div class="linkedin">Link</div>
-        <div class="gplus">Plus</div>
-        <div class="vkontakte">Share</div>
-        <div class="odnoklassniki">Class</div>
-        <div class="telegram">Send</div>
-        <div class="whatsapp">Send</div>
-        <div class="pinterest">Pin</div>
+      <div id="needsharebutton-postbottom">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
     </div>
-  </div>
-  <script src="//cdn.jsdelivr.net/npm/ilyabirman-likely@2/release/likely.min.js"></script>
           <div class="post-tags">
               <a href="/tags/%E8%90%8C%E6%96%B0/" rel="tag"># 萌新</a>
               <a href="/tags/%E5%90%90%E6%A7%BD/" rel="tag"># 吐槽</a>
@@ -335,5 +341,14 @@
 
 
 
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-needmoreshare2@1/needsharebutton.min.js"></script>
+  <script>
+      pbOptions = {};
+        pbOptions.iconStyle = "box";
+        pbOptions.boxForm = "horizontal";
+        pbOptions.position = "bottomCenter";
+        pbOptions.networks = "Wechat,QQZone,Weibo,Douban,Twitter,Facebook";
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+  </script>
 </body>
 </html>
