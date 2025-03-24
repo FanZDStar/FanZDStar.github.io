@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>大黑山程序猿养殖基地</title>
-    <url>/2024/12/29/hello-world/</url>
-    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
-]]></content>
-      <categories>
-        <category>吐槽</category>
-      </categories>
-      <tags>
-        <tag>萌新</tag>
-        <tag>吐槽</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git配置代理</title>
     <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<p>几行命令就能搞定</p>
@@ -35,6 +22,34 @@
       <tags>
         <tag>git</tag>
         <tag>代理配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大黑山程序猿养殖基地</title>
+    <url>/2024/12/29/hello-world/</url>
+    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
+]]></content>
+      <categories>
+        <category>吐槽</category>
+      </categories>
+      <tags>
+        <tag>萌新</tag>
+        <tag>吐槽</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客插入图片的办法</title>
+    <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
+<p><img src="/images/1.jpg" alt="图片" title="原神"></p>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>缺点是当文章很多时，各个文章的图片都在同一文件夹，<strong>不便管理</strong>。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>技术</tag>
       </tags>
   </entry>
   <entry>
@@ -126,21 +141,6 @@
       <tags>
         <tag>吐槽</tag>
         <tag>乒乓球</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客插入图片的办法</title>
-    <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
-<p><img src="/images/1.jpg" alt="图片" title="原神"></p>
-<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>缺点是当文章很多时，各个文章的图片都在同一文件夹，<strong>不便管理</strong>。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>技术</tag>
       </tags>
   </entry>
   <entry>
