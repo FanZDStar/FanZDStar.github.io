@@ -1224,7 +1224,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ff9005;
+    background: #7f9544;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2213,6 +2213,10 @@ pre code {
 }
 .category-all-page .category-list-item {
   margin: 5px 10px;
+}
+.category-all-page .category-list-item::before {
+  content: "📍 ";
+  display: inline;
 }
 .category-all-page .category-list-count {
   font-size: 0.75em;
