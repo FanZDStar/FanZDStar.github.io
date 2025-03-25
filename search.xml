@@ -63,7 +63,7 @@
 <li><strong>小而频繁的提交</strong>：尽量避免在分支上进行大规模的开发，应该进行小而频繁的提交，这样在合并时更容易解决冲突。</li>
 <li><strong>命名规范</strong>：为分支命名时，建议采用清晰且一致的命名规则，例如 <code>feature/xyz</code>、<code>bugfix/abc</code> 等。</li>
 </ol>
-<h2 id="合并冲突"><a href="#合并冲突" class="headerlink" title="合并冲突"></a>合并冲突</h2><p>不想敲了直接上图<br><img src="/source/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-1.png" alt="合并冲突-1"><br><img src="/source/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-2.png" alt="合并冲突-2"></p>
+<h2 id="合并冲突"><a href="#合并冲突" class="headerlink" title="合并冲突"></a>合并冲突</h2><p>不想敲了直接上图<br><img src="/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-1.png" alt="合并冲突-1"><br><img src="/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-2.png" alt="合并冲突-2"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Git 的分支管理功能为开发团队提供了极大的灵活性和效率，能够帮助我们在独立的环境中进行并行开发、代码隔离和协作。通过合理地使用 Git 分支，不仅能够减少开发中的冲突，还能使代码版本管理更加清晰规范。掌握了 Git 分支的基本操作和最佳实践，你将能够在日常开发中更加高效地工作，同时确保项目的稳定性和可维护性。</p>
 ]]></content>
       <categories>
@@ -71,6 +71,30 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git配置代理</title>
+    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>几行命令就能搞定</p>
+<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global -l</span><br></pre></td></tr></table></figure>
+<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:7890</span><br><span class="line">git config --global https.proxy https://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
+<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
+<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config http.proxy http://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
+<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
+<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+        <category>代理配置</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>代理配置</tag>
       </tags>
   </entry>
   <entry>
@@ -99,78 +123,6 @@
       <tags>
         <tag>博客</tag>
         <tag>技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git配置代理</title>
-    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<p>几行命令就能搞定</p>
-<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global -l</span><br></pre></td></tr></table></figure>
-<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:7890</span><br><span class="line">git config --global https.proxy https://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
-<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
-<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config http.proxy http://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
-<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
-<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
-]]></content>
-      <categories>
-        <category>git</category>
-        <category>代理配置</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>代理配置</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>简单吐槽一下逆天的wtt</title>
-    <url>/2024/12/29/%E7%AE%80%E5%8D%95%E5%90%90%E6%A7%BD%E4%B8%80%E4%B8%8B%E9%80%86%E5%A4%A9%E7%9A%84wtt/</url>
-    <content><![CDATA[<h1 id="WTT，你到底想干啥？"><a href="#WTT，你到底想干啥？" class="headerlink" title="WTT，你到底想干啥？"></a>WTT，你到底想干啥？</h1><p>最近，<strong>樊振东</strong>和<strong>陈梦</strong>主动退出乒乓球世界排名的新闻刷爆了乒乓球圈。作为两位现役最顶尖的选手，他们的退出引发了广大球迷的愤怒和吐槽。而导致这场闹剧的罪魁祸首，毫无疑问是<strong>WTT（世界乒乓球职业大联盟）</strong>的不合理赛事安排和积分制度！</p>
-<hr>
-<h2 id="一、赛事安排的不合理性"><a href="#一、赛事安排的不合理性" class="headerlink" title="一、赛事安排的不合理性"></a>一、赛事安排的不合理性</h2><p>WTT 的比赛安排让人摸不着头脑，简直是“压榨式”赛程：</p>
-<ol>
-<li><p><strong>频繁赛事，选手身体吃不消</strong><br>WTT 几乎每个月都有高密度的比赛，而选手必须奔赴世界各地参赛。每场比赛之间的间隔非常短，根本没有足够的时间让选手休整、恢复体能。樊振东此前就曾公开表示，这种赛程对身体和心理的消耗过大，甚至影响了训练质量。</p>
-</li>
-<li><p><strong>比赛地点分布不合理</strong><br>WTT 的比赛大多分布在世界各地，但有些比赛地的交通和条件十分不便。例如从亚洲到欧洲的赛事频繁切换，让选手频繁长途飞行，时差、疲劳接踵而至。乒乓球选手不是“超人”，这样折腾谁受得了？</p>
-</li>
-<li><p><strong>对顶级选手的不公平对待</strong><br>WTT 对顶级选手要求参赛的场次非常严格，但这些选手还肩负着国家队比赛任务（比如奥运会、世乒赛等），两者之间根本没有兼顾的可能性。相比之下，一些排名靠后的选手则因为参赛压力较小，能灵活选择赛事，反而得到了更多积分机会。</p>
-</li>
-</ol>
-<hr>
-<h2 id="二、荒谬的积分制度"><a href="#二、荒谬的积分制度" class="headerlink" title="二、荒谬的积分制度"></a>二、荒谬的积分制度</h2><p>WTT 的积分制度设计堪称“天花乱坠”，问题多到让人吐槽无力：</p>
-<ol>
-<li><p><strong>积分有效期过短</strong><br>WTT 的积分更新规则以自然年为周期，这意味着选手需要在短时间内频繁参赛来“保分”。一旦错过比赛，积分会迅速掉光，排名直接滑落。<strong>樊振东和陈梦作为顶级选手，不想因为不合理的积分机制被绑架，才选择退出排名。</strong></p>
-</li>
-<li><p><strong>小比赛积分过高，大比赛影响力被削弱</strong><br>一些低级别赛事的积分比例过高，而高含金量的比赛积分相对较少。这样的设计让一些顶级选手不得不被迫参加更多小比赛，而真正的大型赛事反而失去了应有的吸引力。</p>
-</li>
-<li><p><strong>积分对排名的僵化作用</strong><br>积分制度使得某些选手通过高频参赛就可以堆积排名，而真正实力强劲的选手，可能因为选择比赛较少而排名落后。这种“数量压过质量”的机制无疑是对乒乓球运动的不尊重！</p>
-</li>
-</ol>
-<hr>
-<h2 id="三、对乒乓球发展的负面影响"><a href="#三、对乒乓球发展的负面影响" class="headerlink" title="三、对乒乓球发展的负面影响"></a>三、对乒乓球发展的负面影响</h2><p>WTT 的这种赛事安排和积分制度，不仅让顶级选手不堪重负，还对乒乓球运动的长期发展造成了巨大威胁：</p>
-<ol>
-<li><p><strong>选手健康受损</strong><br>长期高强度的赛程让选手的身体和心理都面临巨大的压力，导致职业寿命缩短。樊振东、陈梦选择退出排名，很大程度上也是为了保护自己的健康。</p>
-</li>
-<li><p><strong>乒乓球的观赏性下降</strong><br>顶级选手被迫退出或缺席比赛，导致赛事的竞争水平下降，影响了比赛的观赏性和商业价值。观众看不到真正的强强对决，热情会逐渐流失。</p>
-</li>
-<li><p><strong>年轻选手成长受阻</strong><br>积分制度倾向于“参赛数量”，让年轻选手为了积分疲于奔命，无法安心训练提升自身实力。这将直接影响乒乓球未来的整体水平。</p>
-</li>
-</ol>
-<hr>
-<h2 id="四、写在最后"><a href="#四、写在最后" class="headerlink" title="四、写在最后"></a>四、写在最后</h2><p>作为乒乓球迷，我们希望 WTT 能够意识到问题的严重性，听取选手的意见，做出合理的调整。一个健康的职业比赛体系，应该以选手为核心，平衡赛事安排，优化积分规则，而不是让选手成为“赚钱机器”。</p>
-<p>樊振东和陈梦的退出是一个警钟，也是对不合理机制的抗议。如果 WTT 再不改进，失去的可能不仅是选手，还有观众对乒乓球这项运动的热爱。</p>
-<p><strong>WTT，别让乒乓球的未来毁在你手里！</strong></p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113548063670606&bvid=BV1RTzgYxE7U&cid=27037208099&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>]]></content>
-      <categories>
-        <category>吐槽</category>
-        <category>乒乓球</category>
-      </categories>
-      <tags>
-        <tag>吐槽</tag>
-        <tag>乒乓球</tag>
       </tags>
   </entry>
   <entry>
@@ -249,6 +201,54 @@
       <tags>
         <tag>安卓</tag>
         <tag>环境配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>简单吐槽一下逆天的wtt</title>
+    <url>/2024/12/29/%E7%AE%80%E5%8D%95%E5%90%90%E6%A7%BD%E4%B8%80%E4%B8%8B%E9%80%86%E5%A4%A9%E7%9A%84wtt/</url>
+    <content><![CDATA[<h1 id="WTT，你到底想干啥？"><a href="#WTT，你到底想干啥？" class="headerlink" title="WTT，你到底想干啥？"></a>WTT，你到底想干啥？</h1><p>最近，<strong>樊振东</strong>和<strong>陈梦</strong>主动退出乒乓球世界排名的新闻刷爆了乒乓球圈。作为两位现役最顶尖的选手，他们的退出引发了广大球迷的愤怒和吐槽。而导致这场闹剧的罪魁祸首，毫无疑问是<strong>WTT（世界乒乓球职业大联盟）</strong>的不合理赛事安排和积分制度！</p>
+<hr>
+<h2 id="一、赛事安排的不合理性"><a href="#一、赛事安排的不合理性" class="headerlink" title="一、赛事安排的不合理性"></a>一、赛事安排的不合理性</h2><p>WTT 的比赛安排让人摸不着头脑，简直是“压榨式”赛程：</p>
+<ol>
+<li><p><strong>频繁赛事，选手身体吃不消</strong><br>WTT 几乎每个月都有高密度的比赛，而选手必须奔赴世界各地参赛。每场比赛之间的间隔非常短，根本没有足够的时间让选手休整、恢复体能。樊振东此前就曾公开表示，这种赛程对身体和心理的消耗过大，甚至影响了训练质量。</p>
+</li>
+<li><p><strong>比赛地点分布不合理</strong><br>WTT 的比赛大多分布在世界各地，但有些比赛地的交通和条件十分不便。例如从亚洲到欧洲的赛事频繁切换，让选手频繁长途飞行，时差、疲劳接踵而至。乒乓球选手不是“超人”，这样折腾谁受得了？</p>
+</li>
+<li><p><strong>对顶级选手的不公平对待</strong><br>WTT 对顶级选手要求参赛的场次非常严格，但这些选手还肩负着国家队比赛任务（比如奥运会、世乒赛等），两者之间根本没有兼顾的可能性。相比之下，一些排名靠后的选手则因为参赛压力较小，能灵活选择赛事，反而得到了更多积分机会。</p>
+</li>
+</ol>
+<hr>
+<h2 id="二、荒谬的积分制度"><a href="#二、荒谬的积分制度" class="headerlink" title="二、荒谬的积分制度"></a>二、荒谬的积分制度</h2><p>WTT 的积分制度设计堪称“天花乱坠”，问题多到让人吐槽无力：</p>
+<ol>
+<li><p><strong>积分有效期过短</strong><br>WTT 的积分更新规则以自然年为周期，这意味着选手需要在短时间内频繁参赛来“保分”。一旦错过比赛，积分会迅速掉光，排名直接滑落。<strong>樊振东和陈梦作为顶级选手，不想因为不合理的积分机制被绑架，才选择退出排名。</strong></p>
+</li>
+<li><p><strong>小比赛积分过高，大比赛影响力被削弱</strong><br>一些低级别赛事的积分比例过高，而高含金量的比赛积分相对较少。这样的设计让一些顶级选手不得不被迫参加更多小比赛，而真正的大型赛事反而失去了应有的吸引力。</p>
+</li>
+<li><p><strong>积分对排名的僵化作用</strong><br>积分制度使得某些选手通过高频参赛就可以堆积排名，而真正实力强劲的选手，可能因为选择比赛较少而排名落后。这种“数量压过质量”的机制无疑是对乒乓球运动的不尊重！</p>
+</li>
+</ol>
+<hr>
+<h2 id="三、对乒乓球发展的负面影响"><a href="#三、对乒乓球发展的负面影响" class="headerlink" title="三、对乒乓球发展的负面影响"></a>三、对乒乓球发展的负面影响</h2><p>WTT 的这种赛事安排和积分制度，不仅让顶级选手不堪重负，还对乒乓球运动的长期发展造成了巨大威胁：</p>
+<ol>
+<li><p><strong>选手健康受损</strong><br>长期高强度的赛程让选手的身体和心理都面临巨大的压力，导致职业寿命缩短。樊振东、陈梦选择退出排名，很大程度上也是为了保护自己的健康。</p>
+</li>
+<li><p><strong>乒乓球的观赏性下降</strong><br>顶级选手被迫退出或缺席比赛，导致赛事的竞争水平下降，影响了比赛的观赏性和商业价值。观众看不到真正的强强对决，热情会逐渐流失。</p>
+</li>
+<li><p><strong>年轻选手成长受阻</strong><br>积分制度倾向于“参赛数量”，让年轻选手为了积分疲于奔命，无法安心训练提升自身实力。这将直接影响乒乓球未来的整体水平。</p>
+</li>
+</ol>
+<hr>
+<h2 id="四、写在最后"><a href="#四、写在最后" class="headerlink" title="四、写在最后"></a>四、写在最后</h2><p>作为乒乓球迷，我们希望 WTT 能够意识到问题的严重性，听取选手的意见，做出合理的调整。一个健康的职业比赛体系，应该以选手为核心，平衡赛事安排，优化积分规则，而不是让选手成为“赚钱机器”。</p>
+<p>樊振东和陈梦的退出是一个警钟，也是对不合理机制的抗议。如果 WTT 再不改进，失去的可能不仅是选手，还有观众对乒乓球这项运动的热爱。</p>
+<p><strong>WTT，别让乒乓球的未来毁在你手里！</strong></p>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113548063670606&bvid=BV1RTzgYxE7U&cid=27037208099&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>]]></content>
+      <categories>
+        <category>吐槽</category>
+        <category>乒乓球</category>
+      </categories>
+      <tags>
+        <tag>吐槽</tag>
+        <tag>乒乓球</tag>
       </tags>
   </entry>
 </search>
