@@ -1,6 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Uniapp-1</title>
+    <url>/2025/03/26/Uniapp-1/</url>
+    <content><![CDATA[<h1 id="🚀-为什么微信小程序不能使用-Axios？及最佳解决方案"><a href="#🚀-为什么微信小程序不能使用-Axios？及最佳解决方案" class="headerlink" title="🚀 为什么微信小程序不能使用 Axios？及最佳解决方案"></a>🚀 为什么微信小程序不能使用 Axios？及最佳解决方案</h1><p>在微信小程序开发中，许多开发者习惯使用 <code>Axios</code> 进行 HTTP 请求，却常常遇到兼容性问题。本文将深入分析原因，并介绍更优的解决方案。</p>
+<h2 id="🔍-为什么微信小程序不能使用-Axios？"><a href="#🔍-为什么微信小程序不能使用-Axios？" class="headerlink" title="🔍 为什么微信小程序不能使用 Axios？"></a>🔍 为什么微信小程序不能使用 Axios？</h2><h3 id="1-运行环境差异"><a href="#1-运行环境差异" class="headerlink" title="1. 运行环境差异"></a>1. 运行环境差异</h3><div class="comparison-card">
+  <div class="env-card browser">
+    <h3>浏览器环境</h3>
+    <ul>
+      <li>✅ 支持 XMLHttpRequest</li>
+      <li>✅ 支持 Promise</li>
+      <li>✅ 完整 ES6+ 支持</li>
+    </ul>
+  </div>
+  <div class="env-card mini-program">
+    <h3>小程序环境</h3>
+    <ul>
+      <li>❌ 无 XMLHttpRequest</li>
+      <li>⚠️ 有限 Promise 支持</li>
+      <li>⚠️ 受限的 JavaScript 环境</li>
+    </ul>
+  </div>
+</div>
+
+<h3 id="2-核心限制因素"><a href="#2-核心限制因素" class="headerlink" title="2. 核心限制因素"></a>2. 核心限制因素</h3><ul>
+<li><strong>网络请求机制不同</strong>：<ul>
+<li><code>Axios</code> 基于浏览器 <code>XMLHttpRequest</code></li>
+<li>小程序使用自研 <code>wx.request</code> API</li>
+</ul>
+</li>
+<li><strong>Promise 支持差异</strong>：<ul>
+<li><code>Axios</code> 重度依赖 Promise</li>
+<li>小程序早期版本 Promise 支持不完善</li>
+</ul>
+</li>
+<li><strong>模块系统不兼容</strong>：<ul>
+<li><code>Axios</code> 使用 Node.js 核心模块</li>
+<li>小程序无 Node.js 运行环境</li>
+</ul>
+</li>
+</ul>
+<h2 id="💡-完美解决方案：uni-request"><a href="#💡-完美解决方案：uni-request" class="headerlink" title="💡 完美解决方案：uni.request"></a>💡 完美解决方案：uni.request</h2><h3 id="🎯-为什么选择-uni-request？"><a href="#🎯-为什么选择-uni-request？" class="headerlink" title="🎯 为什么选择 uni.request？"></a>🎯 为什么选择 uni.request？</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Axios</th>
+<th>uni.request</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>小程序兼容性</td>
+<td>❌ 不支持</td>
+<td>✅ 完美支持</td>
+</tr>
+<tr>
+<td>跨平台能力</td>
+<td>⚠️ 有限</td>
+<td>✅ 全平台支持</td>
+</tr>
+<tr>
+<td>开发体验</td>
+<td>⭐️⭐️⭐️⭐️</td>
+<td>⭐️⭐️⭐️⭐️⭐️</td>
+</tr>
+<tr>
+<td>维护成本</td>
+<td>高</td>
+<td>低</td>
+</tr>
+</tbody></table>
+<h3 id="🛠-使用指南"><a href="#🛠-使用指南" class="headerlink" title="🛠 使用指南"></a>🛠 使用指南</h3><h4 id="基础请求示例"><a href="#基础请求示例" class="headerlink" title="基础请求示例"></a>基础请求示例</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// GET 请求</span></span><br><span class="line">uni.<span class="title function_">request</span>(&#123;</span><br><span class="line">  <span class="attr">url</span>: <span class="string">&#x27;https://api.example.com/data&#x27;</span>,</span><br><span class="line">  <span class="attr">method</span>: <span class="string">&#x27;GET&#x27;</span>,</span><br><span class="line">  <span class="attr">success</span>: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;数据获取成功&#x27;</span>, res.<span class="property">data</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">fail</span>: <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;请求失败&#x27;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// POST 请求</span></span><br><span class="line">uni.<span class="title function_">request</span>(&#123;</span><br><span class="line">  <span class="attr">url</span>: <span class="string">&#x27;https://api.example.com/submit&#x27;</span>,</span><br><span class="line">  <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">  <span class="attr">data</span>: &#123; <span class="attr">name</span>: <span class="string">&#x27;张三&#x27;</span>, <span class="attr">age</span>: <span class="number">25</span> &#125;,</span><br><span class="line">  <span class="attr">header</span>: &#123; <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a>高级功能</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 请求拦截示例</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">request</span> = (<span class="params">options</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 添加全局 loading</span></span><br><span class="line">  uni.<span class="title function_">showLoading</span>(&#123; <span class="attr">title</span>: <span class="string">&#x27;加载中...&#x27;</span> &#125;)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    uni.<span class="title function_">request</span>(&#123;</span><br><span class="line">      ...options,</span><br><span class="line">      <span class="attr">complete</span>: <span class="function">() =&gt;</span> uni.<span class="title function_">hideLoading</span>(),</span><br><span class="line">      <span class="attr">success</span>: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (res.<span class="property">statusCode</span> === <span class="number">200</span>) &#123;</span><br><span class="line">          <span class="title function_">resolve</span>(res.<span class="property">data</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="title function_">reject</span>(res)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">fail</span>: reject</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line"><span class="title function_">request</span>(&#123;</span><br><span class="line">  <span class="attr">url</span>: <span class="string">&#x27;/api/user&#x27;</span>,</span><br><span class="line">  <span class="attr">method</span>: <span class="string">&#x27;GET&#x27;</span></span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;用户数据:&#x27;</span>, data)</span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;获取失败:&#x27;</span>, err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="🌟-最佳实践建议"><a href="#🌟-最佳实践建议" class="headerlink" title="🌟 最佳实践建议"></a>🌟 最佳实践建议</h2><ol>
+<li><p><strong>封装统一请求层</strong></p>
+<ul>
+<li>统一错误处理</li>
+<li>自动添加认证头</li>
+<li>请求&#x2F;响应日志</li>
+</ul>
+</li>
+<li><p><strong>TypeScript 支持</strong></p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">ApiResponse</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">code</span>: <span class="built_in">number</span></span><br><span class="line">  <span class="attr">data</span>: T</span><br><span class="line">  <span class="attr">message</span>: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> request&lt;T&gt;(<span class="attr">options</span>: <span class="title class_">UniApp</span>.<span class="property">RequestOptions</span>): <span class="title class_">Promise</span>&lt;<span class="title class_">ApiResponse</span>&lt;T&gt;&gt; &#123;</span><br><span class="line">  <span class="comment">// 实现...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>性能优化</strong></p>
+<ul>
+<li>合理设置超时时间</li>
+<li>使用请求缓存</li>
+<li>避免频繁重复请求</li>
+</ul>
+</li>
+</ol>
+<h2 id="📚-扩展阅读"><a href="#📚-扩展阅读" class="headerlink" title="📚 扩展阅读"></a>📚 扩展阅读</h2><ul>
+<li><a href="https://uniapp.dcloud.io/api/request/request">UniApp 网络请求官方文档</a></li>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html">微信小程序网络请求规范</a></li>
+<li><a href="https://juejin.cn/post/6844903652881072141">前端请求层设计模式</a></li>
+</ul>
+<div class="conclusion">
+  <h2>🎯 总结</h2>
+  <p>虽然 <code>Axios</code> 是优秀的 HTTP 客户端，但在微信小程序环境中，<code>uni.request</code> 才是更合适的选择。它提供了：</p>
+  <ul>
+    <li>✅ 完美的平台兼容性</li>
+    <li>✅ 一致的开发体验</li>
+    <li>✅ 强大的功能支持</li>
+  </ul>
+  <p>立即尝试 <code>uni.request</code>，享受更顺畅的小程序开发体验！</p>
+</div>
+
+<style>
+.comparison-card {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+.env-card {
+  flex: 1;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.browser { border-left: 4px solid #4CAF50; }
+.mini-program { border-left: 4px solid #2196F3; }
+.conclusion {
+  background: #f5f7fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+</style>
+]]></content>
+      <categories>
+        <category>技术</category>
+        <category>Uniapp</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+        <tag>Uniapp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git分支处理指北</title>
     <url>/2025/03/25/git%E5%88%86%E6%94%AF%E5%A4%84%E7%90%86%E6%8C%87%E5%8C%97/</url>
     <content><![CDATA[<h1 id="Git-分支管理：为什么、如何使用，以及最佳实践"><a href="#Git-分支管理：为什么、如何使用，以及最佳实践" class="headerlink" title="Git 分支管理：为什么、如何使用，以及最佳实践"></a>Git 分支管理：为什么、如何使用，以及最佳实践</h1><p>Git 是当前最流行的分布式版本控制系统，广泛应用于开发团队中进行源代码管理。与其说 Git 是一个简单的版本控制工具，不如说它是开发人员的强大助手，尤其是在分支管理方面。Git 的分支操作允许我们并行开发，保持代码整洁，避免互相干扰，从而提高开发效率。在这篇文章中，我们将深入探讨 Git 分支的基本概念、操作流程以及一些最佳实践，帮助你更好地理解如何高效地管理 Git 分支。</p>
@@ -121,8 +260,8 @@
         <category>技术</category>
       </categories>
       <tags>
-        <tag>博客</tag>
         <tag>技术</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
