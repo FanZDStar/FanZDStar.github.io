@@ -153,20 +153,6 @@
   </url>
   
   <url>
-    <loc>https://fanzdstar.github.io/tags/%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2025-03-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://fanzdstar.github.io/tags/Uniapp/</loc>
-    <lastmod>2025-03-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://fanzdstar.github.io/tags/git/</loc>
     <lastmod>2025-03-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -182,6 +168,20 @@
   
   <url>
     <loc>https://fanzdstar.github.io/tags/%E5%90%90%E6%A7%BD/</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://fanzdstar.github.io/tags/%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://fanzdstar.github.io/tags/Uniapp/</loc>
     <lastmod>2025-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -232,13 +232,6 @@
   </url>
   
   <url>
-    <loc>https://fanzdstar.github.io/categories/%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2025-03-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://fanzdstar.github.io/categories/git/</loc>
     <lastmod>2025-03-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -253,14 +246,21 @@
   </url>
   
   <url>
-    <loc>https://fanzdstar.github.io/categories/%E6%8A%80%E6%9C%AF/Uniapp/</loc>
+    <loc>https://fanzdstar.github.io/categories/%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2025-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://fanzdstar.github.io/categories/%E5%AE%89%E5%8D%93/</loc>
+    <loc>https://fanzdstar.github.io/categories/%E5%90%90%E6%A7%BD/%E4%B9%92%E4%B9%93%E7%90%83/</loc>
+    <lastmod>2025-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://fanzdstar.github.io/categories/%E6%8A%80%E6%9C%AF/Uniapp/</loc>
     <lastmod>2025-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -274,7 +274,7 @@
   </url>
   
   <url>
-    <loc>https://fanzdstar.github.io/categories/%E5%90%90%E6%A7%BD/%E4%B9%92%E4%B9%93%E7%90%83/</loc>
+    <loc>https://fanzdstar.github.io/categories/%E5%AE%89%E5%8D%93/</loc>
     <lastmod>2025-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
