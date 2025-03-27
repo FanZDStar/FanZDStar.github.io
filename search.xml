@@ -157,19 +157,6 @@
       </tags>
   </entry>
   <entry>
-    <title>大黑山程序猿养殖基地</title>
-    <url>/2024/12/29/hello-world/</url>
-    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
-]]></content>
-      <categories>
-        <category>吐槽</category>
-      </categories>
-      <tags>
-        <tag>萌新</tag>
-        <tag>吐槽</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Uniapp-1</title>
     <url>/2025/03/26/Uniapp-1/</url>
     <content><![CDATA[<h1 id="🚀-为什么微信小程序不能使用-Axios？及最佳解决方案"><a href="#🚀-为什么微信小程序不能使用-Axios？及最佳解决方案" class="headerlink" title="🚀 为什么微信小程序不能使用 Axios？及最佳解决方案"></a>🚀 为什么微信小程序不能使用 Axios？及最佳解决方案</h1><p>在微信小程序开发中，许多开发者习惯使用 <code>Axios</code> 进行 HTTP 请求，却常常遇到兼容性问题。本文将深入分析原因，并介绍更优的解决方案。</p>
@@ -333,6 +320,19 @@
       </tags>
   </entry>
   <entry>
+    <title>大黑山程序猿养殖基地</title>
+    <url>/2024/12/29/hello-world/</url>
+    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
+]]></content>
+      <categories>
+        <category>吐槽</category>
+      </categories>
+      <tags>
+        <tag>萌新</tag>
+        <tag>吐槽</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客插入图片的办法</title>
     <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
@@ -360,6 +360,28 @@
 <h2 id="main-styl"><a href="#main-styl" class="headerlink" title="main.styl"></a>main.styl</h2><p>路径：<code>/hexo-theme-next/source/css/main.styl</code><br>是因为我想给文章列表加上计数，直接在css里用伪类做（要不是伪类不能html内嵌写进去我也不写这里</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">//侧边栏计数伪类</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line"><span class="attribute">counter-reset</span>: postsSidebarNumbsection; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.postsSidebarNumb</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">counter-increment</span>: postsSidebarNumbsection;</span><br><span class="line">  <span class="attribute">content</span>: <span class="built_in">counter</span>(postsSidebarNumbsection) <span class="string">&quot;: &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/next%E4%B8%BB%E9%A2%98%E5%A2%9E%E5%8A%A0%E8%BF%91%E6%9C%9F%E6%96%87%E7%AB%A0%E4%BE%A7%E8%BE%B9%E6%A0%8F-1.png" alt="效果图"></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next主题添加代码块复制功能</title>
+    <url>/2025/03/26/next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h1 id="Hexo-Next-代码块复制功能"><a href="#Hexo-Next-代码块复制功能" class="headerlink" title="Hexo Next 代码块复制功能"></a>Hexo Next 代码块复制功能</h1><p>在NexT主题的v6.3版本里已经加入了代码复制这个功能，所以如果你刚开始使用NexT，直接升级主题，并在主题配置文件中打开代码复制的开关就好了，如果版本低于6.3你可以参考以下方式自行添加。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>在 <code>.\themes\next\source\js\src</code> 目录下新建 <code>clipboard-use.js</code> 文件内容如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*页面载入完成后，创建复制按钮*/</span></span><br><span class="line">!<span class="keyword">function</span> (<span class="params">e, t, a</span>) &#123;</span><br><span class="line">  <span class="comment">/* code */</span></span><br><span class="line">  <span class="keyword">var</span> initCopyCode = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> copyHtml = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;button class=&quot;btn-copy&quot; data-clipboard-snippet=&quot;&quot;&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;  &lt;i class=&quot;fa fa-globe&quot;&gt;&lt;/i&gt;&lt;span&gt;copy&lt;/span&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;/button&gt;&#x27;</span>;</span><br><span class="line">    $(<span class="string">&quot;.highlight&quot;</span>).<span class="title function_">wrap</span>($(<span class="string">&#x27;&lt;div class=&quot;highlight-wrap&quot;&gt;&lt;/div&gt;&#x27;</span>));</span><br><span class="line">    $(<span class="string">&#x27;.highlight-wrap&#x27;</span>).<span class="title function_">prepend</span>(copyHtml);</span><br><span class="line">    <span class="keyword">var</span> clipboard = <span class="keyword">new</span> <span class="title class_">ClipboardJS</span>(<span class="string">&#x27;.btn-copy&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="keyword">function</span>(<span class="params">trigger</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> trigger.<span class="property">nextElementSibling</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 成功提示</span></span><br><span class="line">    clipboard.<span class="title function_">on</span>(<span class="string">&#x27;success&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="title function_">toastPlug</span>(<span class="string">&#x27;复制成功!&#x27;</span>, <span class="number">2000</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">initCopyCode</span>();</span><br><span class="line">&#125;(<span class="variable language_">window</span>, <span class="variable language_">document</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="设置复制按钮样式"><a href="#设置复制按钮样式" class="headerlink" title="设置复制按钮样式"></a>设置复制按钮样式</h2><p>在 <code>.\themes\next\source\css\_custom\custom.styl</code> 样式文件中添加下面代码：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*代码块复制按钮*/</span></span><br><span class="line"><span class="selector-class">.highlight-wrap</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">#fcfcfc</span>,<span class="number">#eee</span>);</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#d5d5d5</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    -webkit-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -moz-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -ms-<span class="attribute">user-select</span>: none;</span><br><span class="line">    <span class="attribute">user-select</span>: none;</span><br><span class="line">    -webkit-<span class="attribute">appearance</span>: none;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">13px</span>;</span><br><span class="line">    <span class="attribute">font-weight</span>: <span class="number">700</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">outline</span>: none;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">    -webkit-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    -o-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">2px</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight-wrap</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.btn-copy</span>&#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h2><p>在 <code>.\themes\next\layout\_layout.swig</code> 文件中，添加引用（注：在 swig 末尾或 body 结束标签（）之前添加）</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 代码块复制功能 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard-use.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注：一开始找的添加复制按钮代码,有一点小bug,如果代码块部分内容超出有横向滑动,复制按钮copy就会跟着移动,而不能固定在右上角，此时只需要将复制按钮和<code>highlight</code>部分外层包裹一个元素，设置<code>position:relative</code>即可。</p>
+<h2 id="v6-3版本-及以上-添加复制的办法"><a href="#v6-3版本-及以上-添加复制的办法" class="headerlink" title="v6.3版本(及以上)添加复制的办法"></a>v6.3版本(及以上)添加复制的办法</h2><p>打开<code>.\themes\next\_config.yml</code>,找到</p>
+<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line"><span class="params">copy_button:</span></span><br><span class="line"><span class="params">enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># Available values: default | flat | mac</span></span><br><span class="line"><span class="params">style:</span></span><br><span class="line"><span class="comment"># Fold code block</span></span><br></pre></td></tr></table></figure>
+<p>把<code>copy_button</code>设置为<code>true</code>即可</p>
 ]]></content>
       <categories>
         <category>技术</category>
@@ -412,6 +434,104 @@
       </tags>
   </entry>
   <entry>
+    <title>宝塔配置前后端分离项目</title>
+    <url>/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<h1 id="服务器-宝塔面板配置前后端分离项目"><a href="#服务器-宝塔面板配置前后端分离项目" class="headerlink" title="服务器 + 宝塔面板配置前后端分离项目"></a>服务器 + 宝塔面板配置前后端分离项目</h1><p>在搭建前后端分离项目时，我们通常会遇到一些挑战，尤其是在配置和部署过程中。作为前后端分离架构的实现者，如何将前端和后端分开部署、通过 Nginx 配置反向代理来保证两者的无缝衔接是必须掌握的一项技能。在本文中，我将分享一些在宝塔面板环境下配置前后端分离项目的经验和实践。</p>
+<p>从前端打包的配置、后端部署到 Nginx 配置的反向代理，每一步都充满了坑，但也正是通过这些步骤，我们确保了项目在生产环境中的高效、稳定运行。希望这篇文章能帮助你少走弯路，节省一些调试时间，避免踩到我曾经踩过的那些雷。</p>
+<p>前端和后端分离的架构让项目的可扩展性和维护性得到了很大提升，但也带来了诸如跨域请求、安全性、反向代理等一系列问题。希望通过这篇分享，大家能够更加顺利地完成部署，并获得更加顺畅的开发体验。</p>
+<p>在进行前后端分离的项目部署时，涉及到前端打包、后端配置、以及反向代理等步骤。这里我将以一个 React 框架的前端项目为例，分享如何在宝塔面板下配置前后端分离项目。</p>
+<h2 id="一、前端打包与配置"><a href="#一、前端打包与配置" class="headerlink" title="一、前端打包与配置"></a>一、前端打包与配置</h2><h3 id="1-1-打包准备"><a href="#1-1-打包准备" class="headerlink" title="1.1 打包准备"></a>1.1 打包准备</h3><p>在 React 项目中，默认情况下，使用 <code>BrowserRouter</code> 来处理路由，但是在部署到生产环境时，使用 <code>BrowserRouter</code> 会出现一些问题，尤其是在服务器没有配置路由重定向时。因此，建议在生产环境中使用 <code>HashRouter</code>，这样可以避免前端路由路径刷新时，导致的 404 错误。</p>
+<h3 id="1-2-修改-React-路由"><a href="#1-2-修改-React-路由" class="headerlink" title="1.2 修改 React 路由"></a>1.2 修改 React 路由</h3><p>如果你使用的是 <code>BrowserRouter</code>，请将其更改为 <code>HashRouter</code>，修改方式如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 修改前：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BrowserRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改后：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">HashRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-修改-package-json"><a href="#1-3-修改-package-json" class="headerlink" title="1.3 修改 package.json"></a>1.3 修改 <code>package.json</code></h3><p>为了让 React 应用在根目录下正确部署，需要在 <code>package.json</code> 中添加 <code>homepage</code> 字段：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;homepage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-打包前端"><a href="#1-4-打包前端" class="headerlink" title="1.4 打包前端"></a>1.4 打包前端</h3><p>运行以下命令进行打包：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>此时，React 会生成一个 <code>build/</code> 文件夹，里面包含了所有的打包文件，包括 <code>index.html</code>、CSS、JavaScript 等。</p>
+<h3 id="1-5-上传前端文件"><a href="#1-5-上传前端文件" class="headerlink" title="1.5 上传前端文件"></a>1.5 上传前端文件</h3><p>将 <code>build/</code> 文件夹中的所有文件上传到服务器。默认情况下，前端项目会部署在网站的根目录(你自己在宝塔面板里配置的)，通常是 <code>/www/wwwroot/</code> 下的一个子目录。</p>
+<ul>
+<li>例如，将 <code>build/</code> 中的文件上传到 <code>/www/wwwroot/history.nuyoahming.xyz/</code> 目录。</li>
+<li>重点：确保设置里默认文件中有一个 <code>index.html</code> 文件，这是网站的入口文件。</li>
+</ul>
+<p>一旦文件上传并覆盖到服务器根目录下，你可以访问配置的域名，看看前端是否正常工作。</p>
+<hr>
+<h2 id="二、后端配置与部署"><a href="#二、后端配置与部署" class="headerlink" title="二、后端配置与部署"></a>二、后端配置与部署</h2><h3 id="2-1-上传后端代码"><a href="#2-1-上传后端代码" class="headerlink" title="2.1 上传后端代码"></a>2.1 上传后端代码</h3><p>在宝塔面板中，创建一个新的目录用于存放后端代码。你可以通过以下步骤来上传和解压后端代码：</p>
+<ol>
+<li>将后端代码上传到服务器指定目录（比如 <code>/www/wwwroot/backend/</code>）。</li>
+<li>上传 <code>node_modules</code> 文件夹时，可以将它压缩成 <code>.tar.gz</code> 或 <code>.zip</code> 文件，上传完成后再解压。因为文件夹中可能有超过 1000 个文件，直接上传可能会导致上传失败。</li>
+</ol>
+<h3 id="2-2-安装-Node-js-和-NPM"><a href="#2-2-安装-Node-js-和-NPM" class="headerlink" title="2.2 安装 Node.js 和 NPM"></a>2.2 安装 Node.js 和 NPM</h3><ol>
+<li>登录到服务器，通过 SSH 安装 Node.js 和 NPM：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装 Node.js (以安装 Node.js 14.x 版本为例)</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_14.x | bash -</span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装完 Node.js 后，使用以下命令验证是否安装成功：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-安装-PM2"><a href="#2-3-安装-PM2" class="headerlink" title="2.3 安装 PM2"></a>2.3 安装 PM2</h3><p>为了确保后端能够一直运行，建议使用 PM2 来管理 Node.js 应用。PM2 是一个进程管理工具，它可以保持应用在后台运行，并且自动重启应用。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g pm2</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-启动后端服务"><a href="#2-4-启动后端服务" class="headerlink" title="2.4 启动后端服务"></a>2.4 启动后端服务</h3><p>进入到后端项目的根目录，启动后端应用：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pm2 start app.js</span><br></pre></td></tr></table></figure>
+
+<p>此时，后端服务已经通过 PM2 启动并运行，可以通过 <code>pm2 list</code> 查看所有管理的进程。</p>
+<h3 id="2-5-配置后端端口"><a href="#2-5-配置后端端口" class="headerlink" title="2.5 配置后端端口"></a>2.5 配置后端端口</h3><p>通常，后端应用会运行在 <code>3001</code> 或类似的端口上。确保后端服务监听正确的端口。</p>
+<hr>
+<h2 id="三、配置-Nginx-反向代理"><a href="#三、配置-Nginx-反向代理" class="headerlink" title="三、配置 Nginx 反向代理"></a>三、配置 Nginx 反向代理</h2><p>前后端分离应用通常是将前端和后端部署在同一服务器的不同端口上。为了使用户可以通过统一的域名访问 API，我们需要使用 Nginx 配置反向代理。</p>
+<h3 id="3-1-配置反向代理"><a href="#3-1-配置反向代理" class="headerlink" title="3.1 配置反向代理"></a>3.1 配置反向代理</h3><p>假设前端应用通过 <code>https://域名</code> 访问，而后端服务在 <code>localhost:3001</code> 上运行，下面是 Nginx 配置文件的例子：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="comment"># 将 /api/ 请求转发到后端服务</span></span><br><span class="line">    <span class="section">location</span> /api/ &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:3001;  <span class="comment"># 后端 HTTP 服务</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;  <span class="comment"># 保留客户端的请求主机</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;  <span class="comment"># 保留客户端真实 IP</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;  <span class="comment"># 保留转发的地址</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$scheme</span>;  <span class="comment"># 保留协议（http 或 https）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-解释配置："><a href="#3-2-解释配置：" class="headerlink" title="3.2 解释配置："></a>3.2 解释配置：</h3><ol>
+<li><strong>SSL 配置</strong>：配置了 SSL 证书，使得网站支持 HTTPS 协议，保证前后端通信的安全性。</li>
+<li><strong>反向代理</strong>：<ul>
+<li><code>location /api/ &#123; proxy_pass http://localhost:3001; &#125;</code>：将所有请求 <code>/api/</code> 的路径转发到 <code>localhost:3001</code>，也就是后端服务。</li>
+<li><code>proxy_set_header</code>：这些指令确保将正确的请求头传递到后端。</li>
+</ul>
+</li>
+<li><strong>静态文件配置</strong>：如果需要支持 PHP 或其他后端技术，Nginx 可以代理到相应的进程。</li>
+<li><strong>敏感文件禁止访问</strong>：为了提高安全性，禁止访问 <code>.env</code>、<code>.git</code> 等敏感文件。</li>
+</ol>
+<h3 id="3-3-重载-Nginx-配置"><a href="#3-3-重载-Nginx-配置" class="headerlink" title="3.3 重载 Nginx 配置"></a>3.3 重载 Nginx 配置</h3><p>配置完 Nginx 后，记得重载 Nginx 使其生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><ol>
+<li><p><strong>前端打包与部署</strong>：</p>
+<ul>
+<li>使用 <code>HashRouter</code> 避免刷新页面时出现 404 错误。</li>
+<li>在 <code>package.json</code> 中添加 <code>&quot;homepage&quot;: &quot;.&quot;</code>，然后进行打包并上传到服务器。</li>
+</ul>
+</li>
+<li><p><strong>后端部署</strong>：</p>
+<ul>
+<li>使用 PM2 来启动后端，确保后端服务一直运行。</li>
+<li>后端服务运行在本地（如 <code>localhost:3001</code>），不需要暴露公网 IP。</li>
+</ul>
+</li>
+<li><p><strong>Nginx 反向代理</strong>：</p>
+<ul>
+<li>配置 Nginx 将 <code>/api/</code> 路径的请求转发到后端服务，前端可以通过 HTTPS 安全访问 API。</li>
+<li>配置 SSL 证书保证通信的安全性。</li>
+</ul>
+</li>
+</ol>
+<p>通过这种方式，前端和后端可以通过同一个域名进行通信，且不会遇到混合内容问题。同时，后端仍然可以在内网运行，提高了安全性。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>服务器</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>服务器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>简单吐槽一下逆天的wtt</title>
     <url>/2024/12/29/%E7%AE%80%E5%8D%95%E5%90%90%E6%A7%BD%E4%B8%80%E4%B8%8B%E9%80%86%E5%A4%A9%E7%9A%84wtt/</url>
     <content><![CDATA[<h1 id="WTT，你到底想干啥？"><a href="#WTT，你到底想干啥？" class="headerlink" title="WTT，你到底想干啥？"></a>WTT，你到底想干啥？</h1><p>最近，<strong>樊振东</strong>和<strong>陈梦</strong>主动退出乒乓球世界排名的新闻刷爆了乒乓球圈。作为两位现役最顶尖的选手，他们的退出引发了广大球迷的愤怒和吐槽。而导致这场闹剧的罪魁祸首，毫无疑问是<strong>WTT（世界乒乓球职业大联盟）</strong>的不合理赛事安排和积分制度！</p>
@@ -457,28 +577,6 @@
       <tags>
         <tag>吐槽</tag>
         <tag>乒乓球</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next主题添加代码块复制功能</title>
-    <url>/2025/03/26/next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h1 id="Hexo-Next-代码块复制功能"><a href="#Hexo-Next-代码块复制功能" class="headerlink" title="Hexo Next 代码块复制功能"></a>Hexo Next 代码块复制功能</h1><p>在NexT主题的v6.3版本里已经加入了代码复制这个功能，所以如果你刚开始使用NexT，直接升级主题，并在主题配置文件中打开代码复制的开关就好了，如果版本低于6.3你可以参考以下方式自行添加。</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>在 <code>.\themes\next\source\js\src</code> 目录下新建 <code>clipboard-use.js</code> 文件内容如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*页面载入完成后，创建复制按钮*/</span></span><br><span class="line">!<span class="keyword">function</span> (<span class="params">e, t, a</span>) &#123;</span><br><span class="line">  <span class="comment">/* code */</span></span><br><span class="line">  <span class="keyword">var</span> initCopyCode = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> copyHtml = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;button class=&quot;btn-copy&quot; data-clipboard-snippet=&quot;&quot;&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;  &lt;i class=&quot;fa fa-globe&quot;&gt;&lt;/i&gt;&lt;span&gt;copy&lt;/span&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;/button&gt;&#x27;</span>;</span><br><span class="line">    $(<span class="string">&quot;.highlight&quot;</span>).<span class="title function_">wrap</span>($(<span class="string">&#x27;&lt;div class=&quot;highlight-wrap&quot;&gt;&lt;/div&gt;&#x27;</span>));</span><br><span class="line">    $(<span class="string">&#x27;.highlight-wrap&#x27;</span>).<span class="title function_">prepend</span>(copyHtml);</span><br><span class="line">    <span class="keyword">var</span> clipboard = <span class="keyword">new</span> <span class="title class_">ClipboardJS</span>(<span class="string">&#x27;.btn-copy&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="keyword">function</span>(<span class="params">trigger</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> trigger.<span class="property">nextElementSibling</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 成功提示</span></span><br><span class="line">    clipboard.<span class="title function_">on</span>(<span class="string">&#x27;success&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="title function_">toastPlug</span>(<span class="string">&#x27;复制成功!&#x27;</span>, <span class="number">2000</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">initCopyCode</span>();</span><br><span class="line">&#125;(<span class="variable language_">window</span>, <span class="variable language_">document</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="设置复制按钮样式"><a href="#设置复制按钮样式" class="headerlink" title="设置复制按钮样式"></a>设置复制按钮样式</h2><p>在 <code>.\themes\next\source\css\_custom\custom.styl</code> 样式文件中添加下面代码：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*代码块复制按钮*/</span></span><br><span class="line"><span class="selector-class">.highlight-wrap</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">#fcfcfc</span>,<span class="number">#eee</span>);</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#d5d5d5</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    -webkit-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -moz-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -ms-<span class="attribute">user-select</span>: none;</span><br><span class="line">    <span class="attribute">user-select</span>: none;</span><br><span class="line">    -webkit-<span class="attribute">appearance</span>: none;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">13px</span>;</span><br><span class="line">    <span class="attribute">font-weight</span>: <span class="number">700</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">outline</span>: none;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">    -webkit-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    -o-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">2px</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight-wrap</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.btn-copy</span>&#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h2><p>在 <code>.\themes\next\layout\_layout.swig</code> 文件中，添加引用（注：在 swig 末尾或 body 结束标签（）之前添加）</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 代码块复制功能 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard-use.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注：一开始找的添加复制按钮代码,有一点小bug,如果代码块部分内容超出有横向滑动,复制按钮copy就会跟着移动,而不能固定在右上角，此时只需要将复制按钮和<code>highlight</code>部分外层包裹一个元素，设置<code>position:relative</code>即可。</p>
-<h2 id="v6-3版本-及以上-添加复制的办法"><a href="#v6-3版本-及以上-添加复制的办法" class="headerlink" title="v6.3版本(及以上)添加复制的办法"></a>v6.3版本(及以上)添加复制的办法</h2><p>打开<code>.\themes\next\_config.yml</code>,找到</p>
-<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line"><span class="params">copy_button:</span></span><br><span class="line"><span class="params">enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># Available values: default | flat | mac</span></span><br><span class="line"><span class="params">style:</span></span><br><span class="line"><span class="comment"># Fold code block</span></span><br></pre></td></tr></table></figure>
-<p>把<code>copy_button</code>设置为<code>true</code>即可</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
       </tags>
   </entry>
   <entry>

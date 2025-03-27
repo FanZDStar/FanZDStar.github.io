@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="dHNgyH17DkhX7LeJKozehjttOhTH7B5VzNdjM3SkhGs">
+  <meta name="msvalidate.01" content="168CD10B064D67FA650B6A221B94A48C">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-loading-bar.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"fanzdstar.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"hide","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta property="og:type" content="article">
+<meta property="og:title" content="宝塔配置前后端分离项目">
+<meta property="og:url" content="https://fanzdstar.github.io/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="Nuyoah">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-27T15:08:22.000Z">
+<meta property="article:modified_time" content="2025-03-27T15:45:09.878Z">
+<meta property="article:author" content="Nuyoah">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://fanzdstar.github.io/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://fanzdstar.github.io/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/","path":"2025/03/27/宝塔配置前后端分离项目/","title":"宝塔配置前后端分离项目"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>宝塔配置前后端分离项目 | Nuyoah</title>
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/theme-next/theme-next-needmoreshare2@1/needsharebutton.min.css"><style>
+#needsharebutton-postbottom {
+  cursor: pointer;
+  height: 26px;
+  margin-top: 10px;
+  position: relative;
+}
+#needsharebutton-postbottom .btn {
+  border: 1px solid $btn-default-border-color;
+  border-radius: 3px;
+  display: initial;
+  padding: 1px 4px;
+}
+</style>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Nuyoah</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">你好，陌生又熟悉的你</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">服务器 + 宝塔面板配置前后端分离项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E7%AB%AF%E6%89%93%E5%8C%85%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">1.1.</span> <span class="nav-text">一、前端打包与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%89%93%E5%8C%85%E5%87%86%E5%A4%87"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 打包准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%BF%AE%E6%94%B9-React-%E8%B7%AF%E7%94%B1"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 修改 React 路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E4%BF%AE%E6%94%B9-package-json"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 修改 package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E6%89%93%E5%8C%85%E5%89%8D%E7%AB%AF"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 打包前端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E4%B8%8A%E4%BC%A0%E5%89%8D%E7%AB%AF%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 上传前端文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%B8%8E%E9%83%A8%E7%BD%B2"><span class="nav-number">1.2.</span> <span class="nav-text">二、后端配置与部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%B8%8A%E4%BC%A0%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 上传后端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AE%89%E8%A3%85-Node-js-%E5%92%8C-NPM"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 安装 Node.js 和 NPM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%AE%89%E8%A3%85-PM2"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 安装 PM2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%90%AF%E5%8A%A8%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 启动后端服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E9%85%8D%E7%BD%AE%E5%90%8E%E7%AB%AF%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 配置后端端口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E9%85%8D%E7%BD%AE-Nginx-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">三、配置 Nginx 反向代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E9%85%8D%E7%BD%AE%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 配置反向代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E8%A7%A3%E9%87%8A%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 解释配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E9%87%8D%E8%BD%BD-Nginx-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 重载 Nginx 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">四、总结</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Nuyoah"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Nuyoah</p>
+  <div class="site-description" itemprop="description">大连理工大学ourEDA实验室的一个小萌新</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fanzdstar" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fanzdstar" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://proselytecoding.github.io/" title="https:&#x2F;&#x2F;proselytecoding.github.io&#x2F;" rel="noopener" target="_blank">Wangyifan</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+    
+    <div class="links-of-blogroll" style="margin-top:20px; border-style:dotted none none none; padding-top:5px; text-align:left;padding-left: 20px; padding-right: 10px; padding-bottom: 5px;">
+      <div class="links-of-blogroll-title" style="padding-bottom: 5px; padding-top: 5px; padding-left: 0px; padding-right: 20px; font-size: 1.6em; argin-right: 5px;">
+    <!-- 选择合适的icon --><i class="fab fa-markdown" aria-hidden="true"></i>
+        <b style="font-size: 0.65em; padding-left: 8px; position: relative; top: -2px;">近期文章</b>
+      </div>
+      <ul class="links-of-blogroll-list">
+    <!-- 文章排序规格,-updated 按照文章更新时间倒排 -->
+        
+    <!-- 显示5数目的文章 -->
+        
+          <li class="postsSidebarNumb" style="text-indent: -1em;">
+            <a href="/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/" title="宝塔配置前后端分离项目" target="_blank">宝塔配置前后端分离项目</a>
+          </li>
+        
+          <li class="postsSidebarNumb" style="text-indent: -1em;">
+            <a href="/2025/03/27/AList-1/" title="AList-1" target="_blank">AList-1</a>
+          </li>
+        
+          <li class="postsSidebarNumb" style="text-indent: -1em;">
+            <a href="/2025/03/26/Uniapp-1/" title="Uniapp-1" target="_blank">Uniapp-1</a>
+          </li>
+        
+          <li class="postsSidebarNumb" style="text-indent: -1em;">
+            <a href="/2025/03/26/next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/" title="next主题添加代码块复制功能" target="_blank">next主题添加代码块复制功能</a>
+          </li>
+        
+          <li class="postsSidebarNumb" style="text-indent: -1em;">
+            <a href="/2025/03/25/next%E4%B8%BB%E9%A2%98%E5%A2%9E%E5%8A%A0%E8%BF%91%E6%9C%9F%E6%96%87%E7%AB%A0%E4%BE%A7%E8%BE%B9%E6%A0%8F/" title="next主题增加近期文章侧边栏" target="_blank">next主题增加近期文章侧边栏</a>
+          </li>
+        
+      </ul>
+    </div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fanzdstar.github.io/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Nuyoah">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nuyoah">
+      <meta itemprop="description" content="大连理工大学ourEDA实验室的一个小萌新">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="宝塔配置前后端分离项目 | Nuyoah">
+      <meta itemprop="description" content="服务器+宝塔面板配置前后端分离项目，搞了不少时间，记录一下防止忘">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          宝塔配置前后端分离项目
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-03-27 23:08:22 / 修改时间：23:45:09" itemprop="dateCreated datePublished" datetime="2025-03-27T23:08:22+08:00">2025-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">服务器+宝塔面板配置前后端分离项目，搞了不少时间，记录一下防止忘</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="服务器-宝塔面板配置前后端分离项目"><a href="#服务器-宝塔面板配置前后端分离项目" class="headerlink" title="服务器 + 宝塔面板配置前后端分离项目"></a>服务器 + 宝塔面板配置前后端分离项目</h1><p>在搭建前后端分离项目时，我们通常会遇到一些挑战，尤其是在配置和部署过程中。作为前后端分离架构的实现者，如何将前端和后端分开部署、通过 Nginx 配置反向代理来保证两者的无缝衔接是必须掌握的一项技能。在本文中，我将分享一些在宝塔面板环境下配置前后端分离项目的经验和实践。</p>
+<p>从前端打包的配置、后端部署到 Nginx 配置的反向代理，每一步都充满了坑，但也正是通过这些步骤，我们确保了项目在生产环境中的高效、稳定运行。希望这篇文章能帮助你少走弯路，节省一些调试时间，避免踩到我曾经踩过的那些雷。</p>
+<p>前端和后端分离的架构让项目的可扩展性和维护性得到了很大提升，但也带来了诸如跨域请求、安全性、反向代理等一系列问题。希望通过这篇分享，大家能够更加顺利地完成部署，并获得更加顺畅的开发体验。</p>
+<p>在进行前后端分离的项目部署时，涉及到前端打包、后端配置、以及反向代理等步骤。这里我将以一个 React 框架的前端项目为例，分享如何在宝塔面板下配置前后端分离项目。</p>
+<h2 id="一、前端打包与配置"><a href="#一、前端打包与配置" class="headerlink" title="一、前端打包与配置"></a>一、前端打包与配置</h2><h3 id="1-1-打包准备"><a href="#1-1-打包准备" class="headerlink" title="1.1 打包准备"></a>1.1 打包准备</h3><p>在 React 项目中，默认情况下，使用 <code>BrowserRouter</code> 来处理路由，但是在部署到生产环境时，使用 <code>BrowserRouter</code> 会出现一些问题，尤其是在服务器没有配置路由重定向时。因此，建议在生产环境中使用 <code>HashRouter</code>，这样可以避免前端路由路径刷新时，导致的 404 错误。</p>
+<h3 id="1-2-修改-React-路由"><a href="#1-2-修改-React-路由" class="headerlink" title="1.2 修改 React 路由"></a>1.2 修改 React 路由</h3><p>如果你使用的是 <code>BrowserRouter</code>，请将其更改为 <code>HashRouter</code>，修改方式如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改前：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BrowserRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改后：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">HashRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-修改-package-json"><a href="#1-3-修改-package-json" class="headerlink" title="1.3 修改 package.json"></a>1.3 修改 <code>package.json</code></h3><p>为了让 React 应用在根目录下正确部署，需要在 <code>package.json</code> 中添加 <code>homepage</code> 字段：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;homepage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-打包前端"><a href="#1-4-打包前端" class="headerlink" title="1.4 打包前端"></a>1.4 打包前端</h3><p>运行以下命令进行打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>此时，React 会生成一个 <code>build/</code> 文件夹，里面包含了所有的打包文件，包括 <code>index.html</code>、CSS、JavaScript 等。</p>
+<h3 id="1-5-上传前端文件"><a href="#1-5-上传前端文件" class="headerlink" title="1.5 上传前端文件"></a>1.5 上传前端文件</h3><p>将 <code>build/</code> 文件夹中的所有文件上传到服务器。默认情况下，前端项目会部署在网站的根目录(你自己在宝塔面板里配置的)，通常是 <code>/www/wwwroot/</code> 下的一个子目录。</p>
+<ul>
+<li>例如，将 <code>build/</code> 中的文件上传到 <code>/www/wwwroot/history.nuyoahming.xyz/</code> 目录。</li>
+<li>重点：确保设置里默认文件中有一个 <code>index.html</code> 文件，这是网站的入口文件。</li>
+</ul>
+<p>一旦文件上传并覆盖到服务器根目录下，你可以访问配置的域名，看看前端是否正常工作。</p>
+<hr>
+<h2 id="二、后端配置与部署"><a href="#二、后端配置与部署" class="headerlink" title="二、后端配置与部署"></a>二、后端配置与部署</h2><h3 id="2-1-上传后端代码"><a href="#2-1-上传后端代码" class="headerlink" title="2.1 上传后端代码"></a>2.1 上传后端代码</h3><p>在宝塔面板中，创建一个新的目录用于存放后端代码。你可以通过以下步骤来上传和解压后端代码：</p>
+<ol>
+<li>将后端代码上传到服务器指定目录（比如 <code>/www/wwwroot/backend/</code>）。</li>
+<li>上传 <code>node_modules</code> 文件夹时，可以将它压缩成 <code>.tar.gz</code> 或 <code>.zip</code> 文件，上传完成后再解压。因为文件夹中可能有超过 1000 个文件，直接上传可能会导致上传失败。</li>
+</ol>
+<h3 id="2-2-安装-Node-js-和-NPM"><a href="#2-2-安装-Node-js-和-NPM" class="headerlink" title="2.2 安装 Node.js 和 NPM"></a>2.2 安装 Node.js 和 NPM</h3><ol>
+<li>登录到服务器，通过 SSH 安装 Node.js 和 NPM：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Node.js (以安装 Node.js 14.x 版本为例)</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_14.x | bash -</span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装完 Node.js 后，使用以下命令验证是否安装成功：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-安装-PM2"><a href="#2-3-安装-PM2" class="headerlink" title="2.3 安装 PM2"></a>2.3 安装 PM2</h3><p>为了确保后端能够一直运行，建议使用 PM2 来管理 Node.js 应用。PM2 是一个进程管理工具，它可以保持应用在后台运行，并且自动重启应用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g pm2</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-启动后端服务"><a href="#2-4-启动后端服务" class="headerlink" title="2.4 启动后端服务"></a>2.4 启动后端服务</h3><p>进入到后端项目的根目录，启动后端应用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 start app.js</span><br></pre></td></tr></table></figure>
+
+<p>此时，后端服务已经通过 PM2 启动并运行，可以通过 <code>pm2 list</code> 查看所有管理的进程。</p>
+<h3 id="2-5-配置后端端口"><a href="#2-5-配置后端端口" class="headerlink" title="2.5 配置后端端口"></a>2.5 配置后端端口</h3><p>通常，后端应用会运行在 <code>3001</code> 或类似的端口上。确保后端服务监听正确的端口。</p>
+<hr>
+<h2 id="三、配置-Nginx-反向代理"><a href="#三、配置-Nginx-反向代理" class="headerlink" title="三、配置 Nginx 反向代理"></a>三、配置 Nginx 反向代理</h2><p>前后端分离应用通常是将前端和后端部署在同一服务器的不同端口上。为了使用户可以通过统一的域名访问 API，我们需要使用 Nginx 配置反向代理。</p>
+<h3 id="3-1-配置反向代理"><a href="#3-1-配置反向代理" class="headerlink" title="3.1 配置反向代理"></a>3.1 配置反向代理</h3><p>假设前端应用通过 <code>https://域名</code> 访问，而后端服务在 <code>localhost:3001</code> 上运行，下面是 Nginx 配置文件的例子：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="comment"># 将 /api/ 请求转发到后端服务</span></span><br><span class="line">    <span class="section">location</span> /api/ &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:3001;  <span class="comment"># 后端 HTTP 服务</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;  <span class="comment"># 保留客户端的请求主机</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;  <span class="comment"># 保留客户端真实 IP</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;  <span class="comment"># 保留转发的地址</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$scheme</span>;  <span class="comment"># 保留协议（http 或 https）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-解释配置："><a href="#3-2-解释配置：" class="headerlink" title="3.2 解释配置："></a>3.2 解释配置：</h3><ol>
+<li><strong>SSL 配置</strong>：配置了 SSL 证书，使得网站支持 HTTPS 协议，保证前后端通信的安全性。</li>
+<li><strong>反向代理</strong>：<ul>
+<li><code>location /api/ &#123; proxy_pass http://localhost:3001; &#125;</code>：将所有请求 <code>/api/</code> 的路径转发到 <code>localhost:3001</code>，也就是后端服务。</li>
+<li><code>proxy_set_header</code>：这些指令确保将正确的请求头传递到后端。</li>
+</ul>
+</li>
+<li><strong>静态文件配置</strong>：如果需要支持 PHP 或其他后端技术，Nginx 可以代理到相应的进程。</li>
+<li><strong>敏感文件禁止访问</strong>：为了提高安全性，禁止访问 <code>.env</code>、<code>.git</code> 等敏感文件。</li>
+</ol>
+<h3 id="3-3-重载-Nginx-配置"><a href="#3-3-重载-Nginx-配置" class="headerlink" title="3.3 重载 Nginx 配置"></a>3.3 重载 Nginx 配置</h3><p>配置完 Nginx 后，记得重载 Nginx 使其生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><ol>
+<li><p><strong>前端打包与部署</strong>：</p>
+<ul>
+<li>使用 <code>HashRouter</code> 避免刷新页面时出现 404 错误。</li>
+<li>在 <code>package.json</code> 中添加 <code>&quot;homepage&quot;: &quot;.&quot;</code>，然后进行打包并上传到服务器。</li>
+</ul>
+</li>
+<li><p><strong>后端部署</strong>：</p>
+<ul>
+<li>使用 PM2 来启动后端，确保后端服务一直运行。</li>
+<li>后端服务运行在本地（如 <code>localhost:3001</code>），不需要暴露公网 IP。</li>
+</ul>
+</li>
+<li><p><strong>Nginx 反向代理</strong>：</p>
+<ul>
+<li>配置 Nginx 将 <code>/api/</code> 路径的请求转发到后端服务，前端可以通过 HTTPS 安全访问 API。</li>
+<li>配置 SSL 证书保证通信的安全性。</li>
+</ul>
+</li>
+</ol>
+<p>通过这种方式，前端和后端可以通过同一个域名进行通信，且不会遇到混合内容问题。同时，后端仍然可以在内网运行，提高了安全性。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer"><div class="post-widgets">
+      <div id="needsharebutton-postbottom">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Nuyoah
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://fanzdstar.github.io/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/" title="宝塔配置前后端分离项目">https://fanzdstar.github.io/2025/03/27/宝塔配置前后端分离项目/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Linux/" <i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" <i class="fa fa-tag"></i> 服务器</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/03/27/AList-1/" rel="prev" title="AList-1">
+                  <i class="fa fa-angle-left"></i> AList-1
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Nuyoah</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">23k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">21 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">
+    <!--由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动 -->
+  </div><div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date();
+    function createtime() {
+      var grt= new Date("08/10/2024 00:00:00"); // 在此处修改你的建站时间
+      now.setTime(now.getTime() + 250);
+      var days = (now - grt) / 1000 / 60 / 60 / 24,
+          dnum = Math.floor(days),
+          hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum),
+          hnum = Math.floor(hours),
+          minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum),
+          mnum = Math.floor(minutes),
+          seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum),
+          snum = Math.round(seconds);
+      if (String(hnum).length === 1) { hnum = "0" + hnum; }
+      if (String(mnum).length === 1) { mnum = "0" + mnum; }
+      if (String(snum).length === 1) { snum = "0" + snum; }
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 " + dnum + " 天 ";
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval(createtime, 250);
+  </script>
+</div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/FanZDStar" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-needmoreshare2@1/needsharebutton.min.js"></script>
+  <script>
+      pbOptions = {};
+        pbOptions.iconStyle = "box";
+        pbOptions.boxForm = "horizontal";
+        pbOptions.position = "bottomCenter";
+        pbOptions.networks = "Wechat,QQZone,Weibo,Douban,Twitter,Facebook";
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+  </script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
