@@ -84,6 +84,30 @@
       </tags>
   </entry>
   <entry>
+    <title>git配置代理</title>
+    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>几行命令就能搞定</p>
+<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">config</span> <span class="comment">--global -l</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> http<span class="selector-class">.proxy</span> http:<span class="comment">//127.0.0.1:7890</span></span><br><span class="line">git config <span class="attr">--global</span> https<span class="selector-class">.proxy</span> https:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
+<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
+<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> http<span class="selector-class">.proxy</span></span><br><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">git config http.proxy http:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
+<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
+<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+        <category>代理配置</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>代理配置</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git分支处理指北</title>
     <url>/2025/03/25/git%E5%88%86%E6%94%AF%E5%A4%84%E7%90%86%E6%8C%87%E5%8C%97/</url>
     <content><![CDATA[<h1 id="Git-分支管理：为什么、如何使用，以及最佳实践"><a href="#Git-分支管理：为什么、如何使用，以及最佳实践" class="headerlink" title="Git 分支管理：为什么、如何使用，以及最佳实践"></a>Git 分支管理：为什么、如何使用，以及最佳实践</h1><p>Git 是当前最流行的分布式版本控制系统，广泛应用于开发团队中进行源代码管理。与其说 Git 是一个简单的版本控制工具，不如说它是开发人员的强大助手，尤其是在分支管理方面。Git 的分支操作允许我们并行开发，保持代码整洁，避免互相干扰，从而提高开发效率。在这篇文章中，我们将深入探讨 Git 分支的基本概念、操作流程以及一些最佳实践，帮助你更好地理解如何高效地管理 Git 分支。</p>
@@ -154,6 +178,19 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大黑山程序猿养殖基地</title>
+    <url>/2024/12/29/hello-world/</url>
+    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
+]]></content>
+      <categories>
+        <category>吐槽</category>
+      </categories>
+      <tags>
+        <tag>萌新</tag>
+        <tag>吐槽</tag>
       </tags>
   </entry>
   <entry>
@@ -296,43 +333,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git配置代理</title>
-    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<p>几行命令就能搞定</p>
-<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">config</span> <span class="comment">--global -l</span></span><br></pre></td></tr></table></figure>
-<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> http<span class="selector-class">.proxy</span> http:<span class="comment">//127.0.0.1:7890</span></span><br><span class="line">git config <span class="attr">--global</span> https<span class="selector-class">.proxy</span> https:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
-<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
-<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> http<span class="selector-class">.proxy</span></span><br><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> https.proxy</span><br></pre></td></tr></table></figure>
-<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
-<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">git config http.proxy http:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
-<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
-<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
-]]></content>
-      <categories>
-        <category>git</category>
-        <category>代理配置</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>代理配置</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>大黑山程序猿养殖基地</title>
-    <url>/2024/12/29/hello-world/</url>
-    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
-]]></content>
-      <categories>
-        <category>吐槽</category>
-      </categories>
-      <tags>
-        <tag>萌新</tag>
-        <tag>吐槽</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo博客插入图片的办法</title>
     <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
@@ -424,6 +424,159 @@
 <hr>
 <p><strong>WTT的错误是体制问题，而刘国梁的错误是个人问题。只有在体制和个人问题都解决之后，乒乓球才能再次迎来真正的辉煌！</strong></p>
 ]]></content>
+      <categories>
+        <category>吐槽</category>
+        <category>乒乓球</category>
+      </categories>
+      <tags>
+        <tag>吐槽</tag>
+        <tag>乒乓球</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>服务器部署脚本及定时启动</title>
+    <url>/2025/03/28/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC%E5%8F%8A%E5%AE%9A%E6%97%B6%E5%90%AF%E5%8A%A8/</url>
+    <content><![CDATA[<p>今天，搞定了一个有趣的项目——自动抓取B站视频在线人数排行榜并实时展示在网页上！从爬虫、部署网页，再到设置定时任务，每一步都踩了坑。点击这里访问<a href="https://hotbiliv.nuyoahming.xyz/">B站视频实时在线人数排行榜</a></p>
+<h2 id="搭建前端页面"><a href="#搭建前端页面" class="headerlink" title="搭建前端页面"></a>搭建前端页面</h2><p>首先，得有个地方展示数据吧？</p>
+<h3 id="动态加载数据："><a href="#动态加载数据：" class="headerlink" title="动态加载数据："></a>动态加载数据：</h3><p>用JavaScript定时请求<code>data.json</code>，让排行榜自动刷新。</p>
+<p>💡 小贴士：</p>
+<ul>
+<li><p>文件权限很重要！如果网页加载不出来，可能是Nginx&#x2F;Apache没有读取权限，试试：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 644 index.html  <span class="comment"># 让Web服务器能读</span></span><br><span class="line"><span class="built_in">chmod</span> 755 static/     <span class="comment"># 确保CSS/JS能加载</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="爬虫脚本"><a href="#爬虫脚本" class="headerlink" title="爬虫脚本"></a>爬虫脚本</h2><p>Python爬虫登场！目标是每小时自动抓取B站视频在线人数，存进<code>data.json</code>。</p>
+<h3 id="关键技术："><a href="#关键技术：" class="headerlink" title="关键技术："></a>关键技术：</h3><ul>
+<li><p><code>requests</code> 发HTTP请求（记得加headers模拟浏览器，不然会被B站反爬）</p>
+</li>
+<li><p><code>json</code> 模块处理数据，避免手写字符串（容易出错！）</p>
+</li>
+<li><p>异常处理！网络可能抽风，脚本不能崩：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(url, headers=headers, timeout=<span class="number">5</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Error: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>💡 小贴士：</p>
+<ul>
+<li>别太频繁请求，否则可能被封IP！可以加个<code>time.sleep(2)</code>控制节奏。</li>
+<li>遵守<code>robots.txt</code>，看看B站允不允许爬（虽然大部分API接口没限制）。</li>
+</ul>
+<h2 id="服务器部署——让脚本自己跑起来！"><a href="#服务器部署——让脚本自己跑起来！" class="headerlink" title="服务器部署——让脚本自己跑起来！"></a>服务器部署——让脚本自己跑起来！</h2><p>爬虫写好了，但不能每次都手动运行吧？定时任务才是王道！</p>
+<h3 id="方法1：Linux-crontab（经典永流传）"><a href="#方法1：Linux-crontab（经典永流传）" class="headerlink" title="方法1：Linux crontab（经典永流传）"></a>方法1：Linux crontab（经典永流传）</h3><p>编辑定时任务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e  <span class="comment"># 编辑定时任务</span></span><br></pre></td></tr></table></figure>
+
+<p>添加一行，让它每小时跑一次：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">0 * * * * /usr/bin/python3 /path/to/your_script.py &gt;&gt; /var/log/bili_cron.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p><code>&gt;&gt; /var/log/bili_cron.log</code>：把输出存到日志文件，方便查错。</p>
+<p><code>2&gt;&amp;1</code>：连错误信息也一起记录。</p>
+<p>💡 小贴士：</p>
+<ul>
+<li><p>权限问题：如果脚本无法写入<code>data.json</code>，试试：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 664 data.json  <span class="comment"># 让Python脚本能修改</span></span><br><span class="line"><span class="built_in">chown</span> www-data:www-data data.json  <span class="comment"># 如果是Web服务器用户（如Nginx）</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>测试cron是否生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">tail</span> -f /var/log/syslog | grep CRON  <span class="comment"># 看cron有没有真的执行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方法2：Systemd-Timer（更现代的选择）"><a href="#方法2：Systemd-Timer（更现代的选择）" class="headerlink" title="方法2：Systemd Timer（更现代的选择）"></a>方法2：Systemd Timer（更现代的选择）</h3><p>如果觉得cron太老派，可以用systemd：</p>
+<p>创建服务文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/systemd/system/bili_crawler.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=B站数据爬取服务</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/python3 /path/to/your_script.py</span><br><span class="line"><span class="attr">User</span>=www-data  <span class="comment"># 用Web服务器用户运行</span></span><br></pre></td></tr></table></figure>
+
+<p>创建定时器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/systemd/system/bili_crawler.timer</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=每小时跑一次B站爬虫</span><br><span class="line"></span><br><span class="line"><span class="section">[Timer]</span></span><br><span class="line"><span class="attr">OnCalendar</span>=hourly  <span class="comment"># 每小时一次</span></span><br><span class="line"><span class="attr">Persistent</span>=<span class="literal">true</span>    <span class="comment"># 如果服务器关机，下次启动会补跑</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=timers.target</span><br></pre></td></tr></table></figure>
+
+<p>启动：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now bili_crawler.timer</span><br></pre></td></tr></table></figure>
+
+<p>💡 小贴士：</p>
+<ul>
+<li>systemd比cron更强大，可以精确控制任务依赖、失败重启等。</li>
+</ul>
+<p>查看日志：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">journalctl -u bili_crawler.service  <span class="comment"># 看最近执行情况</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="监控与维护——别让脚本偷偷挂了！"><a href="#监控与维护——别让脚本偷偷挂了！" class="headerlink" title="监控与维护——别让脚本偷偷挂了！"></a>监控与维护——别让脚本偷偷挂了！</h2><p>自动化是爽，但如果脚本突然不工作了怎么办？</p>
+<h3 id="1-日志检查"><a href="#1-日志检查" class="headerlink" title="1. 日志检查"></a>1. 日志检查</h3><p>如果用了cron，记得定期看日志：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">tail</span> -f /var/log/bili_cron.log  <span class="comment"># 实时监控</span></span><br></pre></td></tr></table></figure>
+
+<p>如果日志太大，可以用logrotate自动切割：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/logrotate.d/bili_cron</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line">/var/log/bili_cron.log &#123;</span><br><span class="line">    daily</span><br><span class="line">    rotate 7</span><br><span class="line">    missingok</span><br><span class="line">    notifempty</span><br><span class="line">    compress</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-资源监控"><a href="#2-资源监控" class="headerlink" title="2. 资源监控"></a>2. 资源监控</h3><p>看Python脚本占多少内存&#x2F;CPU：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">top -p $(pgrep -f your_script.py)</span><br></pre></td></tr></table></figure>
+
+<p>如果脚本跑太久，可能被系统杀掉，可以加个超时控制：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> signal</span><br><span class="line">signal.alarm(<span class="number">60</span>)  <span class="comment"># 60秒后超时</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-异常报警"><a href="#3-异常报警" class="headerlink" title="3. 异常报警"></a>3. 异常报警</h3><p>最简单的方法：用mail命令发邮件（前提服务器配好了SMTP）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;脚本挂了！快检查！&quot;</span> | mail -s <span class="string">&quot;B站爬虫报警&quot;</span> your@email.com</span><br></pre></td></tr></table></figure>
+
+<p>进阶玩法：接入Prometheus + Grafana，或者直接用第三方监控（如UptimeRobot）。</p>
+<h2 id="优化与扩展"><a href="#优化与扩展" class="headerlink" title="优化与扩展"></a>优化与扩展</h2><h3 id="优化方向："><a href="#优化方向：" class="headerlink" title="优化方向："></a>优化方向：</h3><ul>
+<li><p>✅ 缓存机制：如果B站API有频率限制，可以加个<code>cache.json</code>，避免重复请求。</p>
+</li>
+<li><p>✅ 多线程&#x2F;异步：用<code>aiohttp</code>替代<code>requests</code>，让爬虫跑得更快！</p>
+</li>
+<li><p>✅ 数据备份：每天自动备份<code>data.json</code>，避免意外丢失：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> data.json data_$(<span class="built_in">date</span> +%Y%m%d).json</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="扩展玩法："><a href="#扩展玩法：" class="headerlink" title="扩展玩法："></a>扩展玩法：</h3><ul>
+<li>🚀 接入数据库：SQLite（轻量）、MySQL（稳定）、MongoDB（灵活）任选。</li>
+<li>🚀 API接口：用Flask&#x2F;FastAPI暴露数据，让其他程序也能调用。</li>
+<li>🚀 可视化大屏：用Echarts搞个酷炫的实时数据看板！</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>服务器</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>服务器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>简单吐槽一下逆天的wtt</title>
+    <url>/2024/12/29/%E7%AE%80%E5%8D%95%E5%90%90%E6%A7%BD%E4%B8%80%E4%B8%8B%E9%80%86%E5%A4%A9%E7%9A%84wtt/</url>
+    <content><![CDATA[<h1 id="WTT，你到底想干啥？"><a href="#WTT，你到底想干啥？" class="headerlink" title="WTT，你到底想干啥？"></a>WTT，你到底想干啥？</h1><p>最近，<strong>樊振东</strong>和<strong>陈梦</strong>主动退出乒乓球世界排名的新闻刷爆了乒乓球圈。作为两位现役最顶尖的选手，他们的退出引发了广大球迷的愤怒和吐槽。而导致这场闹剧的罪魁祸首，毫无疑问是<strong>WTT（世界乒乓球职业大联盟）</strong>的不合理赛事安排和积分制度！</p>
+<hr>
+<h2 id="一、赛事安排的不合理性"><a href="#一、赛事安排的不合理性" class="headerlink" title="一、赛事安排的不合理性"></a>一、赛事安排的不合理性</h2><p>WTT 的比赛安排让人摸不着头脑，简直是“压榨式”赛程：</p>
+<ol>
+<li><p><strong>频繁赛事，选手身体吃不消</strong><br>WTT 几乎每个月都有高密度的比赛，而选手必须奔赴世界各地参赛。每场比赛之间的间隔非常短，根本没有足够的时间让选手休整、恢复体能。樊振东此前就曾公开表示，这种赛程对身体和心理的消耗过大，甚至影响了训练质量。</p>
+</li>
+<li><p><strong>比赛地点分布不合理</strong><br>WTT 的比赛大多分布在世界各地，但有些比赛地的交通和条件十分不便。例如从亚洲到欧洲的赛事频繁切换，让选手频繁长途飞行，时差、疲劳接踵而至。乒乓球选手不是“超人”，这样折腾谁受得了？</p>
+</li>
+<li><p><strong>对顶级选手的不公平对待</strong><br>WTT 对顶级选手要求参赛的场次非常严格，但这些选手还肩负着国家队比赛任务（比如奥运会、世乒赛等），两者之间根本没有兼顾的可能性。相比之下，一些排名靠后的选手则因为参赛压力较小，能灵活选择赛事，反而得到了更多积分机会。</p>
+</li>
+</ol>
+<hr>
+<h2 id="二、荒谬的积分制度"><a href="#二、荒谬的积分制度" class="headerlink" title="二、荒谬的积分制度"></a>二、荒谬的积分制度</h2><p>WTT 的积分制度设计堪称“天花乱坠”，问题多到让人吐槽无力：</p>
+<ol>
+<li><p><strong>积分有效期过短</strong><br>WTT 的积分更新规则以自然年为周期，这意味着选手需要在短时间内频繁参赛来“保分”。一旦错过比赛，积分会迅速掉光，排名直接滑落。<strong>樊振东和陈梦作为顶级选手，不想因为不合理的积分机制被绑架，才选择退出排名。</strong></p>
+</li>
+<li><p><strong>小比赛积分过高，大比赛影响力被削弱</strong><br>一些低级别赛事的积分比例过高，而高含金量的比赛积分相对较少。这样的设计让一些顶级选手不得不被迫参加更多小比赛，而真正的大型赛事反而失去了应有的吸引力。</p>
+</li>
+<li><p><strong>积分对排名的僵化作用</strong><br>积分制度使得某些选手通过高频参赛就可以堆积排名，而真正实力强劲的选手，可能因为选择比赛较少而排名落后。这种“数量压过质量”的机制无疑是对乒乓球运动的不尊重！</p>
+</li>
+</ol>
+<hr>
+<h2 id="三、对乒乓球发展的负面影响"><a href="#三、对乒乓球发展的负面影响" class="headerlink" title="三、对乒乓球发展的负面影响"></a>三、对乒乓球发展的负面影响</h2><p>WTT 的这种赛事安排和积分制度，不仅让顶级选手不堪重负，还对乒乓球运动的长期发展造成了巨大威胁：</p>
+<ol>
+<li><p><strong>选手健康受损</strong><br>长期高强度的赛程让选手的身体和心理都面临巨大的压力，导致职业寿命缩短。樊振东、陈梦选择退出排名，很大程度上也是为了保护自己的健康。</p>
+</li>
+<li><p><strong>乒乓球的观赏性下降</strong><br>顶级选手被迫退出或缺席比赛，导致赛事的竞争水平下降，影响了比赛的观赏性和商业价值。观众看不到真正的强强对决，热情会逐渐流失。</p>
+</li>
+<li><p><strong>年轻选手成长受阻</strong><br>积分制度倾向于“参赛数量”，让年轻选手为了积分疲于奔命，无法安心训练提升自身实力。这将直接影响乒乓球未来的整体水平。</p>
+</li>
+</ol>
+<hr>
+<h2 id="四、写在最后"><a href="#四、写在最后" class="headerlink" title="四、写在最后"></a>四、写在最后</h2><p>作为乒乓球迷，我们希望 WTT 能够意识到问题的严重性，听取选手的意见，做出合理的调整。一个健康的职业比赛体系，应该以选手为核心，平衡赛事安排，优化积分规则，而不是让选手成为“赚钱机器”。</p>
+<p>樊振东和陈梦的退出是一个警钟，也是对不合理机制的抗议。如果 WTT 再不改进，失去的可能不仅是选手，还有观众对乒乓球这项运动的热爱。</p>
+<p><strong>WTT，别让乒乓球的未来毁在你手里！</strong></p>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113548063670606&bvid=BV1RTzgYxE7U&cid=27037208099&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>]]></content>
       <categories>
         <category>吐槽</category>
         <category>乒乓球</category>
@@ -529,54 +682,6 @@
       <tags>
         <tag>Linux</tag>
         <tag>服务器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>简单吐槽一下逆天的wtt</title>
-    <url>/2024/12/29/%E7%AE%80%E5%8D%95%E5%90%90%E6%A7%BD%E4%B8%80%E4%B8%8B%E9%80%86%E5%A4%A9%E7%9A%84wtt/</url>
-    <content><![CDATA[<h1 id="WTT，你到底想干啥？"><a href="#WTT，你到底想干啥？" class="headerlink" title="WTT，你到底想干啥？"></a>WTT，你到底想干啥？</h1><p>最近，<strong>樊振东</strong>和<strong>陈梦</strong>主动退出乒乓球世界排名的新闻刷爆了乒乓球圈。作为两位现役最顶尖的选手，他们的退出引发了广大球迷的愤怒和吐槽。而导致这场闹剧的罪魁祸首，毫无疑问是<strong>WTT（世界乒乓球职业大联盟）</strong>的不合理赛事安排和积分制度！</p>
-<hr>
-<h2 id="一、赛事安排的不合理性"><a href="#一、赛事安排的不合理性" class="headerlink" title="一、赛事安排的不合理性"></a>一、赛事安排的不合理性</h2><p>WTT 的比赛安排让人摸不着头脑，简直是“压榨式”赛程：</p>
-<ol>
-<li><p><strong>频繁赛事，选手身体吃不消</strong><br>WTT 几乎每个月都有高密度的比赛，而选手必须奔赴世界各地参赛。每场比赛之间的间隔非常短，根本没有足够的时间让选手休整、恢复体能。樊振东此前就曾公开表示，这种赛程对身体和心理的消耗过大，甚至影响了训练质量。</p>
-</li>
-<li><p><strong>比赛地点分布不合理</strong><br>WTT 的比赛大多分布在世界各地，但有些比赛地的交通和条件十分不便。例如从亚洲到欧洲的赛事频繁切换，让选手频繁长途飞行，时差、疲劳接踵而至。乒乓球选手不是“超人”，这样折腾谁受得了？</p>
-</li>
-<li><p><strong>对顶级选手的不公平对待</strong><br>WTT 对顶级选手要求参赛的场次非常严格，但这些选手还肩负着国家队比赛任务（比如奥运会、世乒赛等），两者之间根本没有兼顾的可能性。相比之下，一些排名靠后的选手则因为参赛压力较小，能灵活选择赛事，反而得到了更多积分机会。</p>
-</li>
-</ol>
-<hr>
-<h2 id="二、荒谬的积分制度"><a href="#二、荒谬的积分制度" class="headerlink" title="二、荒谬的积分制度"></a>二、荒谬的积分制度</h2><p>WTT 的积分制度设计堪称“天花乱坠”，问题多到让人吐槽无力：</p>
-<ol>
-<li><p><strong>积分有效期过短</strong><br>WTT 的积分更新规则以自然年为周期，这意味着选手需要在短时间内频繁参赛来“保分”。一旦错过比赛，积分会迅速掉光，排名直接滑落。<strong>樊振东和陈梦作为顶级选手，不想因为不合理的积分机制被绑架，才选择退出排名。</strong></p>
-</li>
-<li><p><strong>小比赛积分过高，大比赛影响力被削弱</strong><br>一些低级别赛事的积分比例过高，而高含金量的比赛积分相对较少。这样的设计让一些顶级选手不得不被迫参加更多小比赛，而真正的大型赛事反而失去了应有的吸引力。</p>
-</li>
-<li><p><strong>积分对排名的僵化作用</strong><br>积分制度使得某些选手通过高频参赛就可以堆积排名，而真正实力强劲的选手，可能因为选择比赛较少而排名落后。这种“数量压过质量”的机制无疑是对乒乓球运动的不尊重！</p>
-</li>
-</ol>
-<hr>
-<h2 id="三、对乒乓球发展的负面影响"><a href="#三、对乒乓球发展的负面影响" class="headerlink" title="三、对乒乓球发展的负面影响"></a>三、对乒乓球发展的负面影响</h2><p>WTT 的这种赛事安排和积分制度，不仅让顶级选手不堪重负，还对乒乓球运动的长期发展造成了巨大威胁：</p>
-<ol>
-<li><p><strong>选手健康受损</strong><br>长期高强度的赛程让选手的身体和心理都面临巨大的压力，导致职业寿命缩短。樊振东、陈梦选择退出排名，很大程度上也是为了保护自己的健康。</p>
-</li>
-<li><p><strong>乒乓球的观赏性下降</strong><br>顶级选手被迫退出或缺席比赛，导致赛事的竞争水平下降，影响了比赛的观赏性和商业价值。观众看不到真正的强强对决，热情会逐渐流失。</p>
-</li>
-<li><p><strong>年轻选手成长受阻</strong><br>积分制度倾向于“参赛数量”，让年轻选手为了积分疲于奔命，无法安心训练提升自身实力。这将直接影响乒乓球未来的整体水平。</p>
-</li>
-</ol>
-<hr>
-<h2 id="四、写在最后"><a href="#四、写在最后" class="headerlink" title="四、写在最后"></a>四、写在最后</h2><p>作为乒乓球迷，我们希望 WTT 能够意识到问题的严重性，听取选手的意见，做出合理的调整。一个健康的职业比赛体系，应该以选手为核心，平衡赛事安排，优化积分规则，而不是让选手成为“赚钱机器”。</p>
-<p>樊振东和陈梦的退出是一个警钟，也是对不合理机制的抗议。如果 WTT 再不改进，失去的可能不仅是选手，还有观众对乒乓球这项运动的热爱。</p>
-<p><strong>WTT，别让乒乓球的未来毁在你手里！</strong></p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113548063670606&bvid=BV1RTzgYxE7U&cid=27037208099&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>]]></content>
-      <categories>
-        <category>吐槽</category>
-        <category>乒乓球</category>
-      </categories>
-      <tags>
-        <tag>吐槽</tag>
-        <tag>乒乓球</tag>
       </tags>
   </entry>
   <entry>
