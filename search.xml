@@ -719,4 +719,22 @@
         <tag>环境配置</tag>
       </tags>
   </entry>
+  <entry>
+    <title>右键新建excel文件打开失败的问题</title>
+    <url>/2025/06/25/%E5%8F%B3%E9%94%AE%E6%96%B0%E5%BB%BAexcel%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="遭遇"><a href="#遭遇" class="headerlink" title="遭遇"></a>遭遇</h1><p>最近要做个表格，新建了一个xlsx文件，结果告诉我文件格式错误打不开！wk？</p>
+<h1 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h1><p>排查问题之后发现 只有新建“Microsoft Excel 工作表”时会出现这种问题，新建“Word”、“PPT”等文件都没有问题，单独打开Excel在里边选择新建工作表也没问题，独独右键新建的文件出问题。</p>
+<p>由于之前安装过WPS（后来又卸载了），我开始怀疑又是这个出生搞的鬼，是它又把我注册表篡改了？</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>按WIN+R，运行regedit，打开注册表编辑器，然后在HKEY_CLASSES_ROOT下找到.xls和.xlsx</p>
+<p>然后又打开.xlsx下边的ET.Xls.6下边的ShellNew，发现这里的FileName的值也是WPS的，放的是之前WPS的模板路径，将路径复制到文件资源管理器打开，发现找不到路径。这个时候心里已经大致知道咋回事了。然后打开Excel.Sheet.12下边的ShellNew，老样子，赋值FileName的值，发现打开了，打开的是一个空白的Excel文件，文件名：excel12.xlsx，这个应该就是Excel的模板文件了，将这个路径复制粘贴到ET.Xls.6下边的ShellNew的FileName，将原来的值修改为</p>
+<p><code>C:\Program Files\Microsoft Office\Root\VFS\Windows\ShellNew\excel12.xlsx（这个填入你自己的Excel路径）</code>，OK，返回桌面，右键&gt;新建&gt;Microsoft Excel 工作表 ,双击顺利打开！！！</p>
+<p>原因就是之前新建“Microsoft Excel 工作表”的时候，模板是用的WPS的模板，但是这个模板已经找不到了，所以新建的工作表就有问题，导致Excel打不开。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
 </search>
