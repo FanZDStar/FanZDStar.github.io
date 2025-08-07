@@ -748,4 +748,21 @@
         <tag>技术</tag>
       </tags>
   </entry>
+  <entry>
+    <title>简单粗暴解决 Markdown All in One 插件相关问题</title>
+    <url>/2025/08/08/%E7%AE%80%E5%8D%95%E7%B2%97%E6%9A%B4%E8%A7%A3%E5%86%B3-Markdown-All-in-One-%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="删除、回车反应慢"><a href="#删除、回车反应慢" class="headerlink" title="删除、回车反应慢"></a>删除、回车反应慢</h1><p>直接进入Markdown All in One的快捷键配置，删除delete和enter的相应快捷方式，这样应该能解决大部分这类问题。</p>
+<h1 id="复制时转圈"><a href="#复制时转圈" class="headerlink" title="复制时转圈"></a>复制时转圈</h1><p>你懂的，程序员的Ctrl C  Ctrl V使用不了是一件非常令人恼火的事情。</p>
+<h2 id="初步办法"><a href="#初步办法" class="headerlink" title="初步办法"></a>初步办法</h2><p>我的建议是，试试看把Markdown All in One卸载重启等<br>如果还是解决不了，那么看下面</p>
+<h2 id="调整设置"><a href="#调整设置" class="headerlink" title="调整设置"></a>调整设置</h2><pre><code>取消选择控制是否可以以不同的方式粘贴内容，按图操作，取消勾选
+</code></pre>
+<p><img src="/images/md-1.1.png" alt="图片" title="图一"><br><img src="/images/md-1.2.png" alt="图片" title="图二"></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
 </search>
