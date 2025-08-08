@@ -740,7 +740,13 @@
   <entry>
     <title>命令行git命令使用卡顿</title>
     <url>/2025/08/08/%E5%91%BD%E4%BB%A4%E8%A1%8Cgit%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E5%8D%A1%E9%A1%BF/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>最近Windows更新后Vitis编译慢、Keil编译慢，git卡顿，C&#x2F;C++编译器编译慢，而且相同的性能大幅下降还体现在vscode以及其他的ide中，打开任务管理器，发现CPU在编译时只有一个核被占用，猜测可能是Windows的更新对多核编译的调度策略产生了影响，经过反复的尝试，结合 <a href="https://blog.gitcode.com/044eb92e5985294e320d024aaf26325e.html" title="访问GitCode">ESP-IDF在Windows 11 24H2系统下的编译性能问题分析与解决方案 - GitCode博客</a> ，发现问题出在MSPCManager Service这个服务上面。</p>
+<h1 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h1><h2 id="1-终止MSPCManagerService-exe进程："><a href="#1-终止MSPCManagerService-exe进程：" class="headerlink" title="1. 终止MSPCManagerService.exe进程："></a>1. 终止MSPCManagerService.exe进程：</h2><p>打开任务管理器<br>在”详细信息”选项卡中找到MSPCManagerService.exe<br>右键选择”结束任务”</p>
+<h2 id="2-禁用Microsoft-PC-Manager服务："><a href="#2-禁用Microsoft-PC-Manager服务：" class="headerlink" title="2. 禁用Microsoft PC Manager服务："></a>2. 禁用Microsoft PC Manager服务：</h2><p>按下Win+R，输入<code>services.msc</code>打开服务管理器<br>找到”Microsoft PC Manager”服务<br>右键选择”属性”，将启动类型改为”禁用”<br>点击”停止”按钮立即停止服务</p>
+<h2 id="3-卸载Microsoft-PC-Manager"><a href="#3-卸载Microsoft-PC-Manager" class="headerlink" title="3. 卸载Microsoft PC Manager"></a>3. 卸载Microsoft PC Manager</h2><p>在Windows11的设置中，卸载Microsoft PC Manager。</p>
+<h2 id="结果："><a href="#结果：" class="headerlink" title="结果："></a>结果：</h2><p>经过修复之后，vitis、keil、gcc的编译速度大幅加快，恢复到原有水平。    </p>
+<p><img src="/images/git%E5%8F%8D%E5%BA%94%E6%85%A2%E7%AD%89%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.png" alt="参考图片" title="参考图片"><br>参考图片</p>
+]]></content>
       <categories>
         <category>技术</category>
       </categories>
@@ -754,9 +760,7 @@
     <content><![CDATA[<h1 id="删除、回车反应慢"><a href="#删除、回车反应慢" class="headerlink" title="删除、回车反应慢"></a>删除、回车反应慢</h1><p>直接进入Markdown All in One的快捷键配置，删除delete和enter的相应快捷方式，这样应该能解决大部分这类问题。</p>
 <h1 id="复制时转圈"><a href="#复制时转圈" class="headerlink" title="复制时转圈"></a>复制时转圈</h1><p>你懂的，程序员的Ctrl C  Ctrl V使用不了是一件非常令人恼火的事情。</p>
 <h2 id="初步办法"><a href="#初步办法" class="headerlink" title="初步办法"></a>初步办法</h2><p>我的建议是，试试看把Markdown All in One卸载重启等<br>如果还是解决不了，那么看下面</p>
-<h2 id="调整设置"><a href="#调整设置" class="headerlink" title="调整设置"></a>调整设置</h2><pre><code>取消选择控制是否可以以不同的方式粘贴内容，按图操作，取消勾选
-</code></pre>
-<p><img src="/images/md-1.1.png" alt="图片" title="图一"><br><img src="/images/md-1.2.png" alt="图片" title="图二"></p>
+<h2 id="调整设置"><a href="#调整设置" class="headerlink" title="调整设置"></a>调整设置</h2><p>取消选择控制是否可以以不同的方式粘贴内容，按图操作，取消勾选<br><img src="/images/md-1.1.png" alt="图片" title="图一"><br><img src="/images/md-1.2.png" alt="图片" title="图二"></p>
 ]]></content>
       <categories>
         <category>技术</category>
