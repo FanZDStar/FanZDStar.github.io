@@ -769,4 +769,31 @@
         <tag>技术</tag>
       </tags>
   </entry>
+  <entry>
+    <title>如何在DataGrip中导入SQL文件</title>
+    <url>/2025/08/14/%E5%A6%82%E4%BD%95%E5%9C%A8DataGrip%E4%B8%AD%E5%AF%BC%E5%85%A5SQL%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<ol>
+<li><p>直接将文件拖进去<br>可以采取直观的方式操作，只需直接将所需的SQL文件拖拽至DataGrip工作区。鼠标右键点击已导入的文件，选择执行（运行）命令。</p>
+<p> 要导入的 .sql文件</p>
+</li>
+</ol>
+<p><img src="/images/1database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-1.png" alt="图片" title="图片"></p>
+<ol start="2">
+<li><p>在数据库中准备测试的数据库<br><img src="/images/1database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-2.png" alt="图片" title="图片"></p>
+</li>
+<li><p>直接将文件拖进去<br>可以采取直观的方式操作，只需直接将所需的SQL文件拖拽至DataGrip工作区。鼠标右键点击已导入的文件，选择执行（运行）命令。</p>
+</li>
+<li><p>记得运行之前要选择哪个数据库<br>接下来的关键步骤是确定目标数据库位置，在执行SQL文件前，系统会提示您选择要将运行结果保存在哪个数据源下的数据库中。（右键打开、或者快捷键打开）<br><img src="/images/1database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-3.png" alt="图片" title="图片"><br>在完成目标数据源的选择后，点击“运行”按钮，DataGrip将开始执行SQL脚本并导入数据。<br><img src="/images/1database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-4.png" alt="图片" title="图片"></p>
+</li>
+<li><p>最后，验证导入结果，您会在所选数据源对应的数据库内看到刚刚运行导入操作所产生的表结构及数据，从而确保整个过程顺利完成。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
 </search>
