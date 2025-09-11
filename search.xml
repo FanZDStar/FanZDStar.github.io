@@ -84,27 +84,71 @@
       </tags>
   </entry>
   <entry>
-    <title>git配置代理</title>
-    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<p>几行命令就能搞定</p>
-<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">config</span> <span class="comment">--global -l</span></span><br></pre></td></tr></table></figure>
-<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> http<span class="selector-class">.proxy</span> http:<span class="comment">//127.0.0.1:7890</span></span><br><span class="line">git config <span class="attr">--global</span> https<span class="selector-class">.proxy</span> https:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
-<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
-<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> http<span class="selector-class">.proxy</span></span><br><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> https.proxy</span><br></pre></td></tr></table></figure>
-<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
-<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">git config http.proxy http:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
-<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
-<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
+    <title>NestJS Packaging: Default vs Static</title>
+    <url>/2025/09/11/NestJS-Packaging-Default-vs-Static/</url>
+    <content><![CDATA[<h2 id="1-默认打包（Default-build）"><a href="#1-默认打包（Default-build）" class="headerlink" title="1. 默认打包（Default build）"></a>1. 默认打包（Default build）</h2><p>运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>打包完成后常见的部署方式是将下列内容拷贝到服务器：</p>
+<ul>
+<li><code>.next</code> 目录</li>
+<li><code>node_modules</code>（完整依赖）</li>
+<li><code>public</code> 目录</li>
+<li><code>package.json</code></li>
+</ul>
+<p>然后在服务器上安装 Node.js 并运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+
+<p>这种方式部署简单，但要拷贝完整的 <code>node_modules</code>，在大型项目中会导致部署包很大（例：整个项目 356MB，node_modules 占 303MB）。如果删除 <code>node_modules</code>，服务将无法启动，因为服务端运行时依赖缺失。</p>
+<h2 id="2-静态导出（Static-export-out）"><a href="#2-静态导出（Static-export-out）" class="headerlink" title="2. 静态导出（Static export &#x2F; out）"></a>2. 静态导出（Static export &#x2F; <code>out</code>）</h2><p>适用于只使用 Next.js 静态页面且不依赖 server-side API 的场景。</p>
+<p>在 <code>next.config.mjs</code> 中设置：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">output</span>: <span class="string">&#x27;export&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>会在项目根生成 <code>out/</code> 目录（纯静态文件）。将 <code>out</code> 部署到静态服务器或通过 Nginx&#x2F;CDN 提供即可。静态站点无需拷贝 <code>node_modules</code>。</p>
+<p>注意：如果页面使用了动态接口或强制动态（如 <code>export const dynamic = &#39;force-dynamic&#39;</code>、或依赖 POST、cookies&#x2F;headers 等运行时行为），则无法完全静态导出，会产生冲突或缺失动态逻辑。</p>
+<h2 id="3-Standalone（单独部署，可减少依赖体积）"><a href="#3-Standalone（单独部署，可减少依赖体积）" class="headerlink" title="3. Standalone（单独部署，可减少依赖体积）"></a>3. Standalone（单独部署，可减少依赖体积）</h2><p>当项目包含 SSR 或 server API，但你希望减小部署体积时，可使用 <code>output: &#39;standalone&#39;</code>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">output</span>: <span class="string">&#x27;standalone&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>构建结果会在 <code>.next</code> 下生成 <code>standalone/</code>（包含 <code>server.js</code> 和运行时需要的精简 <code>node_modules</code>）以及 <code>static/</code>（前端静态资源）。部署步骤：</p>
+<ol>
+<li>将 <code>.next\standalone</code> 整个目录拷到目标服务器（或容器镜像）。</li>
+<li>将 <code>.next\static</code> 拷到 <code>standalone\.next\static</code>。</li>
+<li>将 <code>public</code> 拷到 <code>standalone\public</code>。</li>
+<li>在 <code>standalone</code> 目录运行：</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">node server.js</span><br></pre></td></tr></table></figure>
+
+<p>示例 Windows 拷贝命令（可替换为 <code>robocopy</code>）：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">robocopy .next\static standalone\.next\static /E</span><br><span class="line">robocopy public standalone\public /E</span><br></pre></td></tr></table></figure>
+
+<p>优点：</p>
+<ul>
+<li>只包含服务端运行必须的依赖，体积显著减小（示例：19MB）。</li>
+<li>部署更快，网络传输成本低。</li>
+</ul>
+<p>限制与注意事项：</p>
+<ul>
+<li>目标环境仍需安装 Node.js。</li>
+<li><code>standalone</code> 会带上运行时必须的 native 模块和 server-side 依赖，但不是零依赖。</li>
+<li>若项目中有需要在构建时或运行时才安装的可选依赖，需额外处理。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>纯前端静态站点（<code>out</code> &#x2F; SSG）无需 <code>node_modules</code>，直接部署静态文件即可。</li>
+<li>SSR&#x2F;API 场景可以使用 <code>standalone</code> 来减少需要拷贝的依赖；否则需要在服务器安装完整依赖或拷贝 <code>node_modules</code>。</li>
+<li>根据是否需要动态运行时（POST、cookies、headers、服务端 API）选择合适的输出模式。</li>
+</ul>
 ]]></content>
       <categories>
-        <category>git</category>
-        <category>代理配置</category>
+        <category>技术</category>
       </categories>
       <tags>
-        <tag>git</tag>
-        <tag>代理配置</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -181,16 +225,27 @@
       </tags>
   </entry>
   <entry>
-    <title>大黑山程序猿养殖基地</title>
-    <url>/2024/12/29/hello-world/</url>
-    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
+    <title>git配置代理</title>
+    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>几行命令就能搞定</p>
+<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">config</span> <span class="comment">--global -l</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> http<span class="selector-class">.proxy</span> http:<span class="comment">//127.0.0.1:7890</span></span><br><span class="line">git config <span class="attr">--global</span> https<span class="selector-class">.proxy</span> https:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
+<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
+<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> http<span class="selector-class">.proxy</span></span><br><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">git config http.proxy http:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
+<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
+<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
 ]]></content>
       <categories>
-        <category>吐槽</category>
+        <category>git</category>
+        <category>代理配置</category>
       </categories>
       <tags>
-        <tag>萌新</tag>
-        <tag>吐槽</tag>
+        <tag>git</tag>
+        <tag>代理配置</tag>
       </tags>
   </entry>
   <entry>
@@ -333,18 +388,16 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo博客插入图片的办法</title>
-    <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
-<p><img src="/images/1.jpg" alt="图片" title="原神"></p>
-<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>缺点是当文章很多时，各个文章的图片都在同一文件夹，<strong>不便管理</strong>。</p>
+    <title>大黑山程序猿养殖基地</title>
+    <url>/2024/12/29/hello-world/</url>
+    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
 ]]></content>
       <categories>
-        <category>技术</category>
+        <category>吐槽</category>
       </categories>
       <tags>
-        <tag>技术</tag>
-        <tag>博客</tag>
+        <tag>萌新</tag>
+        <tag>吐槽</tag>
       </tags>
   </entry>
   <entry>
@@ -369,6 +422,21 @@
       </tags>
   </entry>
   <entry>
+    <title>hexo博客插入图片的办法</title>
+    <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
+<p><img src="/images/1.jpg" alt="图片" title="原神"></p>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>缺点是当文章很多时，各个文章的图片都在同一文件夹，<strong>不便管理</strong>。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>next主题添加代码块复制功能</title>
     <url>/2025/03/26/next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h1 id="Hexo-Next-代码块复制功能"><a href="#Hexo-Next-代码块复制功能" class="headerlink" title="Hexo Next 代码块复制功能"></a>Hexo Next 代码块复制功能</h1><p>在NexT主题的v6.3版本里已经加入了代码复制这个功能，所以如果你刚开始使用NexT，直接升级主题，并在主题配置文件中打开代码复制的开关就好了，如果版本低于6.3你可以参考以下方式自行添加。</p>
@@ -388,6 +456,24 @@
       </categories>
       <tags>
         <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>右键新建excel文件打开失败的问题</title>
+    <url>/2025/06/25/%E5%8F%B3%E9%94%AE%E6%96%B0%E5%BB%BAexcel%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="遭遇"><a href="#遭遇" class="headerlink" title="遭遇"></a>遭遇</h1><p>最近要做个表格，新建了一个xlsx文件，结果告诉我文件格式错误打不开！wk？</p>
+<h1 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h1><p>排查问题之后发现 只有新建“Microsoft Excel 工作表”时会出现这种问题，新建“Word”、“PPT”等文件都没有问题，单独打开Excel在里边选择新建工作表也没问题，独独右键新建的文件出问题。</p>
+<p>由于之前安装过WPS（后来又卸载了），我开始怀疑又是这个出生搞的鬼，是它又把我注册表篡改了？</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>按WIN+R，运行regedit，打开注册表编辑器，然后在HKEY_CLASSES_ROOT下找到.xls和.xlsx</p>
+<p>然后又打开.xlsx下边的ET.Xls.6下边的ShellNew，发现这里的FileName的值也是WPS的，放的是之前WPS的模板路径，将路径复制到文件资源管理器打开，发现找不到路径。这个时候心里已经大致知道咋回事了。然后打开Excel.Sheet.12下边的ShellNew，老样子，赋值FileName的值，发现打开了，打开的是一个空白的Excel文件，文件名：excel12.xlsx，这个应该就是Excel的模板文件了，将这个路径复制粘贴到ET.Xls.6下边的ShellNew的FileName，将原来的值修改为</p>
+<p><code>C:\Program Files\Microsoft Office\Root\VFS\Windows\ShellNew\excel12.xlsx（这个填入你自己的Excel路径）</code>，OK，返回桌面，右键&gt;新建&gt;Microsoft Excel 工作表 ,双击顺利打开！！！</p>
+<p>原因就是之前新建“Microsoft Excel 工作表”的时候，模板是用的WPS的模板，但是这个模板已经找不到了，所以新建的工作表就有问题，导致Excel打不开。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
       </tags>
   </entry>
   <entry>
@@ -431,6 +517,144 @@
       <tags>
         <tag>吐槽</tag>
         <tag>乒乓球</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>命令行git命令使用卡顿</title>
+    <url>/2025/08/08/%E5%91%BD%E4%BB%A4%E8%A1%8Cgit%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E5%8D%A1%E9%A1%BF/</url>
+    <content><![CDATA[<p>最近Windows更新后Vitis编译慢、Keil编译慢，git卡顿，C&#x2F;C++编译器编译慢，而且相同的性能大幅下降还体现在vscode以及其他的ide中，打开任务管理器，发现CPU在编译时只有一个核被占用，猜测可能是Windows的更新对多核编译的调度策略产生了影响，经过反复的尝试，结合 <a href="https://blog.gitcode.com/044eb92e5985294e320d024aaf26325e.html" title="访问GitCode">ESP-IDF在Windows 11 24H2系统下的编译性能问题分析与解决方案 - GitCode博客</a> ，发现问题出在MSPCManager Service这个服务上面。</p>
+<h1 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h1><h2 id="1-终止MSPCManagerService-exe进程："><a href="#1-终止MSPCManagerService-exe进程：" class="headerlink" title="1. 终止MSPCManagerService.exe进程："></a>1. 终止MSPCManagerService.exe进程：</h2><p>打开任务管理器<br>在”详细信息”选项卡中找到MSPCManagerService.exe<br>右键选择”结束任务”</p>
+<h2 id="2-禁用Microsoft-PC-Manager服务："><a href="#2-禁用Microsoft-PC-Manager服务：" class="headerlink" title="2. 禁用Microsoft PC Manager服务："></a>2. 禁用Microsoft PC Manager服务：</h2><p>按下Win+R，输入<code>services.msc</code>打开服务管理器<br>找到”Microsoft PC Manager”服务<br>右键选择”属性”，将启动类型改为”禁用”<br>点击”停止”按钮立即停止服务</p>
+<h2 id="3-卸载Microsoft-PC-Manager"><a href="#3-卸载Microsoft-PC-Manager" class="headerlink" title="3. 卸载Microsoft PC Manager"></a>3. 卸载Microsoft PC Manager</h2><p>在Windows11的设置中，卸载Microsoft PC Manager。</p>
+<h2 id="结果："><a href="#结果：" class="headerlink" title="结果："></a>结果：</h2><p>经过修复之后，vitis、keil、gcc的编译速度大幅加快，恢复到原有水平。    </p>
+<p><img src="/images/git%E5%8F%8D%E5%BA%94%E6%85%A2%E7%AD%89%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.png" alt="参考图片" title="参考图片"><br>参考图片</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何在DataGrip中导入SQL文件</title>
+    <url>/2025/08/14/%E5%A6%82%E4%BD%95%E5%9C%A8DataGrip%E4%B8%AD%E5%AF%BC%E5%85%A5SQL%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<ol>
+<li><p>直接将文件拖进去<br>可以采取直观的方式操作，只需直接将所需的SQL文件拖拽至DataGrip工作区。鼠标右键点击已导入的文件，选择执行（运行）命令。<br> <img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-1.png" alt="图片" title="图片1"></p>
+</li>
+<li><p>在数据库中准备测试的数据库<br><img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-2.png" alt="图片" title="图片2"></p>
+</li>
+<li><p>直接将文件拖进去<br>可以采取直观的方式操作，只需直接将所需的SQL文件拖拽至DataGrip工作区。鼠标右键点击已导入的文件，选择执行（运行）命令。</p>
+</li>
+<li><p>记得运行之前要选择哪个数据库<br>接下来的关键步骤是确定目标数据库位置，在执行SQL文件前，系统会提示您选择要将运行结果保存在哪个数据源下的数据库中。（右键打开、或者快捷键打开）<br><img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-3.png" alt="图片" title="图片3"><br>在完成目标数据源的选择后，点击“运行”按钮，DataGrip将开始执行SQL脚本并导入数据。<br><img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-4.png" alt="图片" title="图片4"></p>
+</li>
+<li><p>最后，验证导入结果，您会在所选数据源对应的数据库内看到刚刚运行导入操作所产生的表结构及数据，从而确保整个过程顺利完成。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>宝塔配置前后端分离项目</title>
+    <url>/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<h1 id="服务器-宝塔面板配置前后端分离项目"><a href="#服务器-宝塔面板配置前后端分离项目" class="headerlink" title="服务器 + 宝塔面板配置前后端分离项目"></a>服务器 + 宝塔面板配置前后端分离项目</h1><p>在搭建前后端分离项目时，我们通常会遇到一些挑战，尤其是在配置和部署过程中。作为前后端分离架构的实现者，如何将前端和后端分开部署、通过 Nginx 配置反向代理来保证两者的无缝衔接是必须掌握的一项技能。在本文中，我将分享一些在宝塔面板环境下配置前后端分离项目的经验和实践。</p>
+<p>从前端打包的配置、后端部署到 Nginx 配置的反向代理，每一步都充满了坑，但也正是通过这些步骤，我们确保了项目在生产环境中的高效、稳定运行。希望这篇文章能帮助你少走弯路，节省一些调试时间，避免踩到我曾经踩过的那些雷。</p>
+<p>前端和后端分离的架构让项目的可扩展性和维护性得到了很大提升，但也带来了诸如跨域请求、安全性、反向代理等一系列问题。希望通过这篇分享，大家能够更加顺利地完成部署，并获得更加顺畅的开发体验。</p>
+<p>在进行前后端分离的项目部署时，涉及到前端打包、后端配置、以及反向代理等步骤。这里我将以一个 React 框架的前端项目为例，分享如何在宝塔面板下配置前后端分离项目。</p>
+<h2 id="一、前端打包与配置"><a href="#一、前端打包与配置" class="headerlink" title="一、前端打包与配置"></a>一、前端打包与配置</h2><h3 id="1-1-打包准备"><a href="#1-1-打包准备" class="headerlink" title="1.1 打包准备"></a>1.1 打包准备</h3><p>在 React 项目中，默认情况下，使用 <code>BrowserRouter</code> 来处理路由，但是在部署到生产环境时，使用 <code>BrowserRouter</code> 会出现一些问题，尤其是在服务器没有配置路由重定向时。因此，建议在生产环境中使用 <code>HashRouter</code>，这样可以避免前端路由路径刷新时，导致的 404 错误。</p>
+<h3 id="1-2-修改-React-路由"><a href="#1-2-修改-React-路由" class="headerlink" title="1.2 修改 React 路由"></a>1.2 修改 React 路由</h3><p>如果你使用的是 <code>BrowserRouter</code>，请将其更改为 <code>HashRouter</code>，修改方式如下：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 修改前：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BrowserRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改后：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">HashRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-修改-package-json"><a href="#1-3-修改-package-json" class="headerlink" title="1.3 修改 package.json"></a>1.3 修改 <code>package.json</code></h3><p>为了让 React 应用在根目录下正确部署，需要在 <code>package.json</code> 中添加 <code>homepage</code> 字段：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;homepage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-打包前端"><a href="#1-4-打包前端" class="headerlink" title="1.4 打包前端"></a>1.4 打包前端</h3><p>运行以下命令进行打包：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>此时，React 会生成一个 <code>build/</code> 文件夹，里面包含了所有的打包文件，包括 <code>index.html</code>、CSS、JavaScript 等。</p>
+<h3 id="1-5-上传前端文件"><a href="#1-5-上传前端文件" class="headerlink" title="1.5 上传前端文件"></a>1.5 上传前端文件</h3><p>将 <code>build/</code> 文件夹中的所有文件上传到服务器。默认情况下，前端项目会部署在网站的根目录(你自己在宝塔面板里配置的)，通常是 <code>/www/wwwroot/</code> 下的一个子目录。</p>
+<ul>
+<li>例如，将 <code>build/</code> 中的文件上传到 <code>/www/wwwroot/history.nuyoahming.xyz/</code> 目录。</li>
+<li>重点：确保设置里默认文件中有一个 <code>index.html</code> 文件，这是网站的入口文件。</li>
+</ul>
+<p>一旦文件上传并覆盖到服务器根目录下，你可以访问配置的域名，看看前端是否正常工作。</p>
+<hr>
+<h2 id="二、后端配置与部署"><a href="#二、后端配置与部署" class="headerlink" title="二、后端配置与部署"></a>二、后端配置与部署</h2><h3 id="2-1-上传后端代码"><a href="#2-1-上传后端代码" class="headerlink" title="2.1 上传后端代码"></a>2.1 上传后端代码</h3><p>在宝塔面板中，创建一个新的目录用于存放后端代码。你可以通过以下步骤来上传和解压后端代码：</p>
+<ol>
+<li>将后端代码上传到服务器指定目录（比如 <code>/www/wwwroot/backend/</code>）。</li>
+<li>上传 <code>node_modules</code> 文件夹时，可以将它压缩成 <code>.tar.gz</code> 或 <code>.zip</code> 文件，上传完成后再解压。因为文件夹中可能有超过 1000 个文件，直接上传可能会导致上传失败。</li>
+</ol>
+<h3 id="2-2-安装-Node-js-和-NPM"><a href="#2-2-安装-Node-js-和-NPM" class="headerlink" title="2.2 安装 Node.js 和 NPM"></a>2.2 安装 Node.js 和 NPM</h3><ol>
+<li>登录到服务器，通过 SSH 安装 Node.js 和 NPM：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装 Node.js (以安装 Node.js 14.x 版本为例)</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_14.x | bash -</span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装完 Node.js 后，使用以下命令验证是否安装成功：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-安装-PM2"><a href="#2-3-安装-PM2" class="headerlink" title="2.3 安装 PM2"></a>2.3 安装 PM2</h3><p>为了确保后端能够一直运行，建议使用 PM2 来管理 Node.js 应用。PM2 是一个进程管理工具，它可以保持应用在后台运行，并且自动重启应用。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g pm2</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-启动后端服务"><a href="#2-4-启动后端服务" class="headerlink" title="2.4 启动后端服务"></a>2.4 启动后端服务</h3><p>进入到后端项目的根目录，启动后端应用：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pm2 start app.js</span><br></pre></td></tr></table></figure>
+
+<p>此时，后端服务已经通过 PM2 启动并运行，可以通过 <code>pm2 list</code> 查看所有管理的进程。</p>
+<h3 id="2-5-配置后端端口"><a href="#2-5-配置后端端口" class="headerlink" title="2.5 配置后端端口"></a>2.5 配置后端端口</h3><p>通常，后端应用会运行在 <code>3001</code> 或类似的端口上。确保后端服务监听正确的端口。</p>
+<hr>
+<h2 id="三、配置-Nginx-反向代理"><a href="#三、配置-Nginx-反向代理" class="headerlink" title="三、配置 Nginx 反向代理"></a>三、配置 Nginx 反向代理</h2><p>前后端分离应用通常是将前端和后端部署在同一服务器的不同端口上。为了使用户可以通过统一的域名访问 API，我们需要使用 Nginx 配置反向代理。</p>
+<h3 id="3-1-配置反向代理"><a href="#3-1-配置反向代理" class="headerlink" title="3.1 配置反向代理"></a>3.1 配置反向代理</h3><p>假设前端应用通过 <code>https://域名</code> 访问，而后端服务在 <code>localhost:3001</code> 上运行，下面是 Nginx 配置文件的例子：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="comment"># 将 /api/ 请求转发到后端服务</span></span><br><span class="line">    <span class="section">location</span> /api/ &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:3001;  <span class="comment"># 后端 HTTP 服务</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;  <span class="comment"># 保留客户端的请求主机</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;  <span class="comment"># 保留客户端真实 IP</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;  <span class="comment"># 保留转发的地址</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$scheme</span>;  <span class="comment"># 保留协议（http 或 https）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-解释配置："><a href="#3-2-解释配置：" class="headerlink" title="3.2 解释配置："></a>3.2 解释配置：</h3><ol>
+<li><strong>SSL 配置</strong>：配置了 SSL 证书，使得网站支持 HTTPS 协议，保证前后端通信的安全性。</li>
+<li><strong>反向代理</strong>：<ul>
+<li><code>location /api/ &#123; proxy_pass http://localhost:3001; &#125;</code>：将所有请求 <code>/api/</code> 的路径转发到 <code>localhost:3001</code>，也就是后端服务。</li>
+<li><code>proxy_set_header</code>：这些指令确保将正确的请求头传递到后端。</li>
+</ul>
+</li>
+<li><strong>静态文件配置</strong>：如果需要支持 PHP 或其他后端技术，Nginx 可以代理到相应的进程。</li>
+<li><strong>敏感文件禁止访问</strong>：为了提高安全性，禁止访问 <code>.env</code>、<code>.git</code> 等敏感文件。</li>
+</ol>
+<h3 id="3-3-重载-Nginx-配置"><a href="#3-3-重载-Nginx-配置" class="headerlink" title="3.3 重载 Nginx 配置"></a>3.3 重载 Nginx 配置</h3><p>配置完 Nginx 后，记得重载 Nginx 使其生效：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><ol>
+<li><p><strong>前端打包与部署</strong>：</p>
+<ul>
+<li>使用 <code>HashRouter</code> 避免刷新页面时出现 404 错误。</li>
+<li>在 <code>package.json</code> 中添加 <code>&quot;homepage&quot;: &quot;.&quot;</code>，然后进行打包并上传到服务器。</li>
+</ul>
+</li>
+<li><p><strong>后端部署</strong>：</p>
+<ul>
+<li>使用 PM2 来启动后端，确保后端服务一直运行。</li>
+<li>后端服务运行在本地（如 <code>localhost:3001</code>），不需要暴露公网 IP。</li>
+</ul>
+</li>
+<li><p><strong>Nginx 反向代理</strong>：</p>
+<ul>
+<li>配置 Nginx 将 <code>/api/</code> 路径的请求转发到后端服务，前端可以通过 HTTPS 安全访问 API。</li>
+<li>配置 SSL 证书保证通信的安全性。</li>
+</ul>
+</li>
+</ol>
+<p>通过这种方式，前端和后端可以通过同一个域名进行通信，且不会遇到混合内容问题。同时，后端仍然可以在内网运行，提高了安全性。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>服务器</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>服务器</tag>
       </tags>
   </entry>
   <entry>
@@ -587,104 +811,6 @@
       </tags>
   </entry>
   <entry>
-    <title>宝塔配置前后端分离项目</title>
-    <url>/2025/03/27/%E5%AE%9D%E5%A1%94%E9%85%8D%E7%BD%AE%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<h1 id="服务器-宝塔面板配置前后端分离项目"><a href="#服务器-宝塔面板配置前后端分离项目" class="headerlink" title="服务器 + 宝塔面板配置前后端分离项目"></a>服务器 + 宝塔面板配置前后端分离项目</h1><p>在搭建前后端分离项目时，我们通常会遇到一些挑战，尤其是在配置和部署过程中。作为前后端分离架构的实现者，如何将前端和后端分开部署、通过 Nginx 配置反向代理来保证两者的无缝衔接是必须掌握的一项技能。在本文中，我将分享一些在宝塔面板环境下配置前后端分离项目的经验和实践。</p>
-<p>从前端打包的配置、后端部署到 Nginx 配置的反向代理，每一步都充满了坑，但也正是通过这些步骤，我们确保了项目在生产环境中的高效、稳定运行。希望这篇文章能帮助你少走弯路，节省一些调试时间，避免踩到我曾经踩过的那些雷。</p>
-<p>前端和后端分离的架构让项目的可扩展性和维护性得到了很大提升，但也带来了诸如跨域请求、安全性、反向代理等一系列问题。希望通过这篇分享，大家能够更加顺利地完成部署，并获得更加顺畅的开发体验。</p>
-<p>在进行前后端分离的项目部署时，涉及到前端打包、后端配置、以及反向代理等步骤。这里我将以一个 React 框架的前端项目为例，分享如何在宝塔面板下配置前后端分离项目。</p>
-<h2 id="一、前端打包与配置"><a href="#一、前端打包与配置" class="headerlink" title="一、前端打包与配置"></a>一、前端打包与配置</h2><h3 id="1-1-打包准备"><a href="#1-1-打包准备" class="headerlink" title="1.1 打包准备"></a>1.1 打包准备</h3><p>在 React 项目中，默认情况下，使用 <code>BrowserRouter</code> 来处理路由，但是在部署到生产环境时，使用 <code>BrowserRouter</code> 会出现一些问题，尤其是在服务器没有配置路由重定向时。因此，建议在生产环境中使用 <code>HashRouter</code>，这样可以避免前端路由路径刷新时，导致的 404 错误。</p>
-<h3 id="1-2-修改-React-路由"><a href="#1-2-修改-React-路由" class="headerlink" title="1.2 修改 React 路由"></a>1.2 修改 React 路由</h3><p>如果你使用的是 <code>BrowserRouter</code>，请将其更改为 <code>HashRouter</code>，修改方式如下：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 修改前：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BrowserRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改后：</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">HashRouter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-3-修改-package-json"><a href="#1-3-修改-package-json" class="headerlink" title="1.3 修改 package.json"></a>1.3 修改 <code>package.json</code></h3><p>为了让 React 应用在根目录下正确部署，需要在 <code>package.json</code> 中添加 <code>homepage</code> 字段：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;homepage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="1-4-打包前端"><a href="#1-4-打包前端" class="headerlink" title="1.4 打包前端"></a>1.4 打包前端</h3><p>运行以下命令进行打包：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<p>此时，React 会生成一个 <code>build/</code> 文件夹，里面包含了所有的打包文件，包括 <code>index.html</code>、CSS、JavaScript 等。</p>
-<h3 id="1-5-上传前端文件"><a href="#1-5-上传前端文件" class="headerlink" title="1.5 上传前端文件"></a>1.5 上传前端文件</h3><p>将 <code>build/</code> 文件夹中的所有文件上传到服务器。默认情况下，前端项目会部署在网站的根目录(你自己在宝塔面板里配置的)，通常是 <code>/www/wwwroot/</code> 下的一个子目录。</p>
-<ul>
-<li>例如，将 <code>build/</code> 中的文件上传到 <code>/www/wwwroot/history.nuyoahming.xyz/</code> 目录。</li>
-<li>重点：确保设置里默认文件中有一个 <code>index.html</code> 文件，这是网站的入口文件。</li>
-</ul>
-<p>一旦文件上传并覆盖到服务器根目录下，你可以访问配置的域名，看看前端是否正常工作。</p>
-<hr>
-<h2 id="二、后端配置与部署"><a href="#二、后端配置与部署" class="headerlink" title="二、后端配置与部署"></a>二、后端配置与部署</h2><h3 id="2-1-上传后端代码"><a href="#2-1-上传后端代码" class="headerlink" title="2.1 上传后端代码"></a>2.1 上传后端代码</h3><p>在宝塔面板中，创建一个新的目录用于存放后端代码。你可以通过以下步骤来上传和解压后端代码：</p>
-<ol>
-<li>将后端代码上传到服务器指定目录（比如 <code>/www/wwwroot/backend/</code>）。</li>
-<li>上传 <code>node_modules</code> 文件夹时，可以将它压缩成 <code>.tar.gz</code> 或 <code>.zip</code> 文件，上传完成后再解压。因为文件夹中可能有超过 1000 个文件，直接上传可能会导致上传失败。</li>
-</ol>
-<h3 id="2-2-安装-Node-js-和-NPM"><a href="#2-2-安装-Node-js-和-NPM" class="headerlink" title="2.2 安装 Node.js 和 NPM"></a>2.2 安装 Node.js 和 NPM</h3><ol>
-<li>登录到服务器，通过 SSH 安装 Node.js 和 NPM：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装 Node.js (以安装 Node.js 14.x 版本为例)</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_14.x | bash -</span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>安装完 Node.js 后，使用以下命令验证是否安装成功：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3-安装-PM2"><a href="#2-3-安装-PM2" class="headerlink" title="2.3 安装 PM2"></a>2.3 安装 PM2</h3><p>为了确保后端能够一直运行，建议使用 PM2 来管理 Node.js 应用。PM2 是一个进程管理工具，它可以保持应用在后台运行，并且自动重启应用。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g pm2</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-4-启动后端服务"><a href="#2-4-启动后端服务" class="headerlink" title="2.4 启动后端服务"></a>2.4 启动后端服务</h3><p>进入到后端项目的根目录，启动后端应用：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pm2 start app.js</span><br></pre></td></tr></table></figure>
-
-<p>此时，后端服务已经通过 PM2 启动并运行，可以通过 <code>pm2 list</code> 查看所有管理的进程。</p>
-<h3 id="2-5-配置后端端口"><a href="#2-5-配置后端端口" class="headerlink" title="2.5 配置后端端口"></a>2.5 配置后端端口</h3><p>通常，后端应用会运行在 <code>3001</code> 或类似的端口上。确保后端服务监听正确的端口。</p>
-<hr>
-<h2 id="三、配置-Nginx-反向代理"><a href="#三、配置-Nginx-反向代理" class="headerlink" title="三、配置 Nginx 反向代理"></a>三、配置 Nginx 反向代理</h2><p>前后端分离应用通常是将前端和后端部署在同一服务器的不同端口上。为了使用户可以通过统一的域名访问 API，我们需要使用 Nginx 配置反向代理。</p>
-<h3 id="3-1-配置反向代理"><a href="#3-1-配置反向代理" class="headerlink" title="3.1 配置反向代理"></a>3.1 配置反向代理</h3><p>假设前端应用通过 <code>https://域名</code> 访问，而后端服务在 <code>localhost:3001</code> 上运行，下面是 Nginx 配置文件的例子：</p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="comment"># 将 /api/ 请求转发到后端服务</span></span><br><span class="line">    <span class="section">location</span> /api/ &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:3001;  <span class="comment"># 后端 HTTP 服务</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;  <span class="comment"># 保留客户端的请求主机</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;  <span class="comment"># 保留客户端真实 IP</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;  <span class="comment"># 保留转发的地址</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$scheme</span>;  <span class="comment"># 保留协议（http 或 https）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-2-解释配置："><a href="#3-2-解释配置：" class="headerlink" title="3.2 解释配置："></a>3.2 解释配置：</h3><ol>
-<li><strong>SSL 配置</strong>：配置了 SSL 证书，使得网站支持 HTTPS 协议，保证前后端通信的安全性。</li>
-<li><strong>反向代理</strong>：<ul>
-<li><code>location /api/ &#123; proxy_pass http://localhost:3001; &#125;</code>：将所有请求 <code>/api/</code> 的路径转发到 <code>localhost:3001</code>，也就是后端服务。</li>
-<li><code>proxy_set_header</code>：这些指令确保将正确的请求头传递到后端。</li>
-</ul>
-</li>
-<li><strong>静态文件配置</strong>：如果需要支持 PHP 或其他后端技术，Nginx 可以代理到相应的进程。</li>
-<li><strong>敏感文件禁止访问</strong>：为了提高安全性，禁止访问 <code>.env</code>、<code>.git</code> 等敏感文件。</li>
-</ol>
-<h3 id="3-3-重载-Nginx-配置"><a href="#3-3-重载-Nginx-配置" class="headerlink" title="3.3 重载 Nginx 配置"></a>3.3 重载 Nginx 配置</h3><p>配置完 Nginx 后，记得重载 Nginx 使其生效：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nginx -s reload</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><ol>
-<li><p><strong>前端打包与部署</strong>：</p>
-<ul>
-<li>使用 <code>HashRouter</code> 避免刷新页面时出现 404 错误。</li>
-<li>在 <code>package.json</code> 中添加 <code>&quot;homepage&quot;: &quot;.&quot;</code>，然后进行打包并上传到服务器。</li>
-</ul>
-</li>
-<li><p><strong>后端部署</strong>：</p>
-<ul>
-<li>使用 PM2 来启动后端，确保后端服务一直运行。</li>
-<li>后端服务运行在本地（如 <code>localhost:3001</code>），不需要暴露公网 IP。</li>
-</ul>
-</li>
-<li><p><strong>Nginx 反向代理</strong>：</p>
-<ul>
-<li>配置 Nginx 将 <code>/api/</code> 路径的请求转发到后端服务，前端可以通过 HTTPS 安全访问 API。</li>
-<li>配置 SSL 证书保证通信的安全性。</li>
-</ul>
-</li>
-</ol>
-<p>通过这种方式，前端和后端可以通过同一个域名进行通信，且不会遇到混合内容问题。同时，后端仍然可以在内网运行，提高了安全性。</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>服务器</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>服务器</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>记录我第一次配置Android和react-native踩过的坑</title>
     <url>/2025/01/16/%E8%AE%B0%E5%BD%95%E6%88%91%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%85%8D%E7%BD%AEAndroid%E5%92%8Creact-native%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/</url>
     <content><![CDATA[<h3 id="前面全部按照React-Native中文版文档来，这没啥问题"><a href="#前面全部按照React-Native中文版文档来，这没啥问题" class="headerlink" title="前面全部按照React-Native中文版文档来，这没啥问题"></a>前面全部按照React-Native中文版文档来，这没啥问题</h3><h3 id="先启动AVD-顺序别搞错了"><a href="#先启动AVD-顺序别搞错了" class="headerlink" title="先启动AVD,顺序别搞错了"></a>先启动AVD,顺序别搞错了</h3><h3 id="使用-npm-运行-React-Native-项目"><a href="#使用-npm-运行-React-Native-项目" class="headerlink" title="使用 npm 运行 React Native 项目"></a>使用 npm 运行 React Native 项目</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run android</span><br></pre></td></tr></table></figure>
@@ -720,70 +846,12 @@
       </tags>
   </entry>
   <entry>
-    <title>右键新建excel文件打开失败的问题</title>
-    <url>/2025/06/25/%E5%8F%B3%E9%94%AE%E6%96%B0%E5%BB%BAexcel%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="遭遇"><a href="#遭遇" class="headerlink" title="遭遇"></a>遭遇</h1><p>最近要做个表格，新建了一个xlsx文件，结果告诉我文件格式错误打不开！wk？</p>
-<h1 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h1><p>排查问题之后发现 只有新建“Microsoft Excel 工作表”时会出现这种问题，新建“Word”、“PPT”等文件都没有问题，单独打开Excel在里边选择新建工作表也没问题，独独右键新建的文件出问题。</p>
-<p>由于之前安装过WPS（后来又卸载了），我开始怀疑又是这个出生搞的鬼，是它又把我注册表篡改了？</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>按WIN+R，运行regedit，打开注册表编辑器，然后在HKEY_CLASSES_ROOT下找到.xls和.xlsx</p>
-<p>然后又打开.xlsx下边的ET.Xls.6下边的ShellNew，发现这里的FileName的值也是WPS的，放的是之前WPS的模板路径，将路径复制到文件资源管理器打开，发现找不到路径。这个时候心里已经大致知道咋回事了。然后打开Excel.Sheet.12下边的ShellNew，老样子，赋值FileName的值，发现打开了，打开的是一个空白的Excel文件，文件名：excel12.xlsx，这个应该就是Excel的模板文件了，将这个路径复制粘贴到ET.Xls.6下边的ShellNew的FileName，将原来的值修改为</p>
-<p><code>C:\Program Files\Microsoft Office\Root\VFS\Windows\ShellNew\excel12.xlsx（这个填入你自己的Excel路径）</code>，OK，返回桌面，右键&gt;新建&gt;Microsoft Excel 工作表 ,双击顺利打开！！！</p>
-<p>原因就是之前新建“Microsoft Excel 工作表”的时候，模板是用的WPS的模板，但是这个模板已经找不到了，所以新建的工作表就有问题，导致Excel打不开。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>命令行git命令使用卡顿</title>
-    <url>/2025/08/08/%E5%91%BD%E4%BB%A4%E8%A1%8Cgit%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E5%8D%A1%E9%A1%BF/</url>
-    <content><![CDATA[<p>最近Windows更新后Vitis编译慢、Keil编译慢，git卡顿，C&#x2F;C++编译器编译慢，而且相同的性能大幅下降还体现在vscode以及其他的ide中，打开任务管理器，发现CPU在编译时只有一个核被占用，猜测可能是Windows的更新对多核编译的调度策略产生了影响，经过反复的尝试，结合 <a href="https://blog.gitcode.com/044eb92e5985294e320d024aaf26325e.html" title="访问GitCode">ESP-IDF在Windows 11 24H2系统下的编译性能问题分析与解决方案 - GitCode博客</a> ，发现问题出在MSPCManager Service这个服务上面。</p>
-<h1 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h1><h2 id="1-终止MSPCManagerService-exe进程："><a href="#1-终止MSPCManagerService-exe进程：" class="headerlink" title="1. 终止MSPCManagerService.exe进程："></a>1. 终止MSPCManagerService.exe进程：</h2><p>打开任务管理器<br>在”详细信息”选项卡中找到MSPCManagerService.exe<br>右键选择”结束任务”</p>
-<h2 id="2-禁用Microsoft-PC-Manager服务："><a href="#2-禁用Microsoft-PC-Manager服务：" class="headerlink" title="2. 禁用Microsoft PC Manager服务："></a>2. 禁用Microsoft PC Manager服务：</h2><p>按下Win+R，输入<code>services.msc</code>打开服务管理器<br>找到”Microsoft PC Manager”服务<br>右键选择”属性”，将启动类型改为”禁用”<br>点击”停止”按钮立即停止服务</p>
-<h2 id="3-卸载Microsoft-PC-Manager"><a href="#3-卸载Microsoft-PC-Manager" class="headerlink" title="3. 卸载Microsoft PC Manager"></a>3. 卸载Microsoft PC Manager</h2><p>在Windows11的设置中，卸载Microsoft PC Manager。</p>
-<h2 id="结果："><a href="#结果：" class="headerlink" title="结果："></a>结果：</h2><p>经过修复之后，vitis、keil、gcc的编译速度大幅加快，恢复到原有水平。    </p>
-<p><img src="/images/git%E5%8F%8D%E5%BA%94%E6%85%A2%E7%AD%89%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.png" alt="参考图片" title="参考图片"><br>参考图片</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>技术</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>简单粗暴解决 Markdown All in One 插件相关问题</title>
     <url>/2025/08/08/%E7%AE%80%E5%8D%95%E7%B2%97%E6%9A%B4%E8%A7%A3%E5%86%B3-Markdown-All-in-One-%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="删除、回车反应慢"><a href="#删除、回车反应慢" class="headerlink" title="删除、回车反应慢"></a>删除、回车反应慢</h1><p>直接进入Markdown All in One的快捷键配置，删除delete和enter的相应快捷方式，这样应该能解决大部分这类问题。</p>
 <h1 id="复制时转圈"><a href="#复制时转圈" class="headerlink" title="复制时转圈"></a>复制时转圈</h1><p>你懂的，程序员的Ctrl C  Ctrl V使用不了是一件非常令人恼火的事情。</p>
 <h2 id="初步办法"><a href="#初步办法" class="headerlink" title="初步办法"></a>初步办法</h2><p>我的建议是，试试看把Markdown All in One卸载重启等<br>如果还是解决不了，那么看下面</p>
 <h2 id="调整设置"><a href="#调整设置" class="headerlink" title="调整设置"></a>调整设置</h2><p>取消选择控制是否可以以不同的方式粘贴内容，按图操作，取消勾选<br><img src="/images/md-1.1.png" alt="图片" title="图一"><br><img src="/images/md-1.2.png" alt="图片" title="图二"></p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在DataGrip中导入SQL文件</title>
-    <url>/2025/08/14/%E5%A6%82%E4%BD%95%E5%9C%A8DataGrip%E4%B8%AD%E5%AF%BC%E5%85%A5SQL%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<ol>
-<li><p>直接将文件拖进去<br>可以采取直观的方式操作，只需直接将所需的SQL文件拖拽至DataGrip工作区。鼠标右键点击已导入的文件，选择执行（运行）命令。<br> <img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-1.png" alt="图片" title="图片1"></p>
-</li>
-<li><p>在数据库中准备测试的数据库<br><img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-2.png" alt="图片" title="图片2"></p>
-</li>
-<li><p>直接将文件拖进去<br>可以采取直观的方式操作，只需直接将所需的SQL文件拖拽至DataGrip工作区。鼠标右键点击已导入的文件，选择执行（运行）命令。</p>
-</li>
-<li><p>记得运行之前要选择哪个数据库<br>接下来的关键步骤是确定目标数据库位置，在执行SQL文件前，系统会提示您选择要将运行结果保存在哪个数据源下的数据库中。（右键打开、或者快捷键打开）<br><img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-3.png" alt="图片" title="图片3"><br>在完成目标数据源的选择后，点击“运行”按钮，DataGrip将开始执行SQL脚本并导入数据。<br><img src="/images/database%E5%AF%BC%E5%85%A5sql%E8%84%9A%E6%9C%AC-4.png" alt="图片" title="图片4"></p>
-</li>
-<li><p>最后，验证导入结果，您会在所选数据源对应的数据库内看到刚刚运行导入操作所产生的表结构及数据，从而确保整个过程顺利完成。</p>
-</li>
-</ol>
 ]]></content>
       <categories>
         <category>技术</category>
