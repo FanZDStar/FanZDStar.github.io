@@ -84,171 +84,6 @@
       </tags>
   </entry>
   <entry>
-    <title>NestJS Packaging: Default vs Static</title>
-    <url>/2025/09/11/NestJS-Packaging-Default-vs-Static/</url>
-    <content><![CDATA[<h2 id="1-默认打包（Default-build）"><a href="#1-默认打包（Default-build）" class="headerlink" title="1. 默认打包（Default build）"></a>1. 默认打包（Default build）</h2><p>运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<p>打包完成后常见的部署方式是将下列内容拷贝到服务器：</p>
-<ul>
-<li><code>.next</code> 目录</li>
-<li><code>node_modules</code>（完整依赖）</li>
-<li><code>public</code> 目录</li>
-<li><code>package.json</code></li>
-</ul>
-<p>然后在服务器上安装 Node.js 并运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
-
-<p>这种方式部署简单，但要拷贝完整的 <code>node_modules</code>，在大型项目中会导致部署包很大（例：整个项目 356MB，node_modules 占 303MB）。如果删除 <code>node_modules</code>，服务将无法启动，因为服务端运行时依赖缺失。</p>
-<h2 id="2-静态导出（Static-export-out）"><a href="#2-静态导出（Static-export-out）" class="headerlink" title="2. 静态导出（Static export &#x2F; out）"></a>2. 静态导出（Static export &#x2F; <code>out</code>）</h2><p>适用于只使用 Next.js 静态页面且不依赖 server-side API 的场景。</p>
-<p>在 <code>next.config.mjs</code> 中设置：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">output</span>: <span class="string">&#x27;export&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<p>会在项目根生成 <code>out/</code> 目录（纯静态文件）。将 <code>out</code> 部署到静态服务器或通过 Nginx&#x2F;CDN 提供即可。静态站点无需拷贝 <code>node_modules</code>。</p>
-<p>注意：如果页面使用了动态接口或强制动态（如 <code>export const dynamic = &#39;force-dynamic&#39;</code>、或依赖 POST、cookies&#x2F;headers 等运行时行为），则无法完全静态导出，会产生冲突或缺失动态逻辑。</p>
-<h2 id="3-Standalone（单独部署，可减少依赖体积）"><a href="#3-Standalone（单独部署，可减少依赖体积）" class="headerlink" title="3. Standalone（单独部署，可减少依赖体积）"></a>3. Standalone（单独部署，可减少依赖体积）</h2><p>当项目包含 SSR 或 server API，但你希望减小部署体积时，可使用 <code>output: &#39;standalone&#39;</code>：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">output</span>: <span class="string">&#x27;standalone&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<p>构建结果会在 <code>.next</code> 下生成 <code>standalone/</code>（包含 <code>server.js</code> 和运行时需要的精简 <code>node_modules</code>）以及 <code>static/</code>（前端静态资源）。部署步骤：</p>
-<ol>
-<li>将 <code>.next\standalone</code> 整个目录拷到目标服务器（或容器镜像）。</li>
-<li>将 <code>.next\static</code> 拷到 <code>standalone\.next\static</code>。</li>
-<li>将 <code>public</code> 拷到 <code>standalone\public</code>。</li>
-<li>在 <code>standalone</code> 目录运行：</li>
-</ol>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">node server.js</span><br></pre></td></tr></table></figure>
-
-<p>示例 Windows 拷贝命令（可替换为 <code>robocopy</code>）：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">robocopy .next\static standalone\.next\static /E</span><br><span class="line">robocopy public standalone\public /E</span><br></pre></td></tr></table></figure>
-
-<p>优点：</p>
-<ul>
-<li>只包含服务端运行必须的依赖，体积显著减小（示例：19MB）。</li>
-<li>部署更快，网络传输成本低。</li>
-</ul>
-<p>限制与注意事项：</p>
-<ul>
-<li>目标环境仍需安装 Node.js。</li>
-<li><code>standalone</code> 会带上运行时必须的 native 模块和 server-side 依赖，但不是零依赖。</li>
-<li>若项目中有需要在构建时或运行时才安装的可选依赖，需额外处理。</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>纯前端静态站点（<code>out</code> &#x2F; SSG）无需 <code>node_modules</code>，直接部署静态文件即可。</li>
-<li>SSR&#x2F;API 场景可以使用 <code>standalone</code> 来减少需要拷贝的依赖；否则需要在服务器安装完整依赖或拷贝 <code>node_modules</code>。</li>
-<li>根据是否需要动态运行时（POST、cookies、headers、服务端 API）选择合适的输出模式。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git分支处理指北</title>
-    <url>/2025/03/25/git%E5%88%86%E6%94%AF%E5%A4%84%E7%90%86%E6%8C%87%E5%8C%97/</url>
-    <content><![CDATA[<h1 id="Git-分支管理：为什么、如何使用，以及最佳实践"><a href="#Git-分支管理：为什么、如何使用，以及最佳实践" class="headerlink" title="Git 分支管理：为什么、如何使用，以及最佳实践"></a>Git 分支管理：为什么、如何使用，以及最佳实践</h1><p>Git 是当前最流行的分布式版本控制系统，广泛应用于开发团队中进行源代码管理。与其说 Git 是一个简单的版本控制工具，不如说它是开发人员的强大助手，尤其是在分支管理方面。Git 的分支操作允许我们并行开发，保持代码整洁，避免互相干扰，从而提高开发效率。在这篇文章中，我们将深入探讨 Git 分支的基本概念、操作流程以及一些最佳实践，帮助你更好地理解如何高效地管理 Git 分支。</p>
-<h2 id="为什么要使用-Git-分支？"><a href="#为什么要使用-Git-分支？" class="headerlink" title="为什么要使用 Git 分支？"></a>为什么要使用 Git 分支？</h2><h3 id="1-并行开发"><a href="#1-并行开发" class="headerlink" title="1. 并行开发"></a>1. 并行开发</h3><p>分支是 Git 中非常强大的功能，它允许多个开发人员同时进行不同的任务而不影响彼此的工作。例如，开发人员可以在一个分支上修复 bug，另一个开发人员可以在另一个分支上实现新功能，而主分支（通常是 <code>main</code> 或 <code>master</code>）依然保持稳定。完成工作后，通过合并（merge）操作，可以将各自的工作成果合并到主分支上。</p>
-<h3 id="2-代码隔离与安全"><a href="#2-代码隔离与安全" class="headerlink" title="2. 代码隔离与安全"></a>2. 代码隔离与安全</h3><p>在没有分支的情况下，开发人员可能会直接在主分支上进行工作，这样一旦开发过程中出现问题，就可能会影响到其他开发人员或者是生产环境。而通过创建独立的分支来开发新功能或者修复 bug，可以有效避免这类问题。分支的存在使得每个功能的开发是隔离的，直到完成并且经过测试后再合并到主分支中。</p>
-<h3 id="3-提高协作效率"><a href="#3-提高协作效率" class="headerlink" title="3. 提高协作效率"></a>3. 提高协作效率</h3><p>分支让团队成员能够更加高效地协作。每个开发者都可以在自己的分支上进行开发，互不干扰。当某个开发者的工作完成时，只需要将该分支合并回主分支或其他适当的分支，所有的修改就会统一汇聚到一起，而无需担心代码冲突。</p>
-<h3 id="4-版本管理与发布"><a href="#4-版本管理与发布" class="headerlink" title="4. 版本管理与发布"></a>4. 版本管理与发布</h3><p>通过 Git 分支，你可以灵活地管理不同的版本。例如，你可以为每个发布版本创建一个分支，在该分支上进行 bug 修复和功能调整，发布完成后再合并到主分支。同时，开发人员也可以继续在其他分支上进行新功能的开发，确保开发过程的连续性。</p>
-<h2 id="Git-分支操作详解"><a href="#Git-分支操作详解" class="headerlink" title="Git 分支操作详解"></a>Git 分支操作详解</h2><p>在了解了为什么要使用 Git 分支之后，接下来我们详细介绍 Git 分支的常用操作，包括创建、切换、合并、删除分支等。</p>
-<h3 id="1-创建分支"><a href="#1-创建分支" class="headerlink" title="1. 创建分支"></a>1. 创建分支</h3><p>要开始使用 Git 分支，首先需要创建一个新的分支。你可以使用 <code>git branch</code> 命令来创建一个新分支。例如，如果你想创建一个名为 <code>feature-xyz</code> 的分支，可以运行以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch feature-xyz</span><br></pre></td></tr></table></figure>
-
-<p>这条命令会创建一个名为 <code>feature-xyz</code> 的分支，但它不会切换到这个分支。你仍然处于当前分支(如果你是在master分支下运行的话你现在还在master下)上。</p>
-<p>如果你希望在创建分支的同时切换到该分支，可以使用 <code>git checkout -b</code> 命令，或者在较新的 Git 版本中，使用 <code>git switch</code> 命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b feature-xyz</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">git switch -c feature-xyz</span><br></pre></td></tr></table></figure>
-
-<p>这将创建 <code>feature-xyz</code> 分支，并自动切换到该分支。</p>
-<h3 id="2-切换分支"><a href="#2-切换分支" class="headerlink" title="2. 切换分支"></a>2. 切换分支</h3><p>当你创建了多个分支之后，可能需要在它们之间切换。切换分支可以通过 <code>git checkout</code> 或 <code>git switch</code> 命令来实现。</p>
-<p>如果你已经有了 <code>feature-xyz</code> 分支并希望切换到它，可以运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout feature-xyz</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">git switch feature-xyz</span><br></pre></td></tr></table></figure>
-
-<p>这将使得当前工作目录切换到 <code>feature-xyz</code> 分支。需要注意的是，Git 会检查你当前的工作目录是否有未提交的更改，如果有，Git 会提示你先提交更改或进行其他操作，以避免丢失修改。</p>
-<h3 id="3-查看分支"><a href="#3-查看分支" class="headerlink" title="3. 查看分支"></a>3. 查看分支</h3><p>你可以使用 <code>git branch</code> 命令查看所有本地分支。例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
-
-<p>此命令将列出所有本地分支，并用 <code>*</code> 标记当前所在的分支。如果你想查看远程分支，可以使用 <code>-r</code> 选项：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -r</span><br></pre></td></tr></table></figure>
-
-<p>如果你想查看本地和远程的所有分支，可以使用：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-合并分支"><a href="#4-合并分支" class="headerlink" title="4. 合并分支"></a>4. 合并分支</h3><p>分支的真正魅力在于它的合并（merge）功能。合并分支允许你将两个分支的工作合并到一起。</p>
-<p>假设你已经在 <code>feature-xyz</code> 分支上完成了某个功能开发，现在需要将它合并到 <code>main</code> 分支。首先，切换到目标分支 <code>main</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br></pre></td></tr></table></figure>
-
-<p>然后，使用 <code>git merge</code> 命令将 <code>feature-xyz</code> 分支的更改合并到 <code>main</code> 分支：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge feature-xyz</span><br></pre></td></tr></table></figure>
-
-<p>如果合并没有冲突，Git 会自动将两者的更改整合在一起。若存在冲突，Git 会提示你手动解决冲突，通常是通过编辑冲突文件，选择保留哪些更改，最后标记为已解决并提交合并。</p>
-<h3 id="5-删除分支"><a href="#5-删除分支" class="headerlink" title="5. 删除分支"></a>5. 删除分支</h3><p>当一个分支的工作完成并且已经合并到主分支之后，通常需要删除该分支以保持仓库的整洁。你可以使用 <code>git branch -d</code> 命令来删除本地分支：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -d feature-xyz</span><br></pre></td></tr></table></figure>
-
-<p>如果分支没有完全合并，<code>git branch -d</code> 会阻止删除操作，防止丢失未合并的工作。如果你确定要删除该分支，可以使用 <code>-D</code> 强制删除：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -D feature-xyz</span><br></pre></td></tr></table></figure>
-
-<p>删除远程分支可以使用：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin --delete feature-xyz</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-推送和拉取分支"><a href="#6-推送和拉取分支" class="headerlink" title="6. 推送和拉取分支"></a>6. 推送和拉取分支</h3><h4 id="推送分支"><a href="#推送分支" class="headerlink" title="推送分支"></a>推送分支</h4><p>如果你在本地创建了一个新分支，并希望将其推送到远程仓库，可以使用：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin feature-xyz</span><br></pre></td></tr></table></figure>
-
-<p>这将把 <code>feature-xyz</code> 分支推送到远程仓库，并建立本地和远程分支之间的追踪关系。</p>
-<h4 id="拉取分支"><a href="#拉取分支" class="headerlink" title="拉取分支"></a>拉取分支</h4><p>当其他人将更改推送到远程分支时，你需要拉取这些更改。你可以使用以下命令从远程仓库拉取最新的分支更新：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull origin feature-xyz</span><br></pre></td></tr></table></figure>
-
-<h4 id="大致流程示例"><a href="#大致流程示例" class="headerlink" title="大致流程示例"></a>大致流程示例</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout back || git checkout -b back  <span class="comment"># 切换或创建分支back</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;修改描述&quot;</span> <span class="comment">#填入你写的修改描述</span></span><br><span class="line"><span class="comment"># git pull origin back  可选，推荐先拉取</span></span><br><span class="line">git push origin back  <span class="comment"># 首次推送用 git push -u origin back</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Git-分支的最佳实践"><a href="#Git-分支的最佳实践" class="headerlink" title="Git 分支的最佳实践"></a>Git 分支的最佳实践</h2><ol>
-<li><strong>保持主分支干净</strong>：所有功能开发应该在独立的分支上进行，确保主分支始终保持可用和稳定。</li>
-<li><strong>频繁合并</strong>：定期将其他分支的更改合并到你的分支中，避免冲突积累得太多。</li>
-<li><strong>小而频繁的提交</strong>：尽量避免在分支上进行大规模的开发，应该进行小而频繁的提交，这样在合并时更容易解决冲突。</li>
-<li><strong>命名规范</strong>：为分支命名时，建议采用清晰且一致的命名规则，例如 <code>feature/xyz</code>、<code>bugfix/abc</code> 等。</li>
-</ol>
-<h2 id="合并冲突"><a href="#合并冲突" class="headerlink" title="合并冲突"></a>合并冲突</h2><p>不想敲了直接上图<br><img src="/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-1.png" alt="合并冲突-1"><br><img src="/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-2.png" alt="合并冲突-2"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Git 的分支管理功能为开发团队提供了极大的灵活性和效率，能够帮助我们在独立的环境中进行并行开发、代码隔离和协作。通过合理地使用 Git 分支，不仅能够减少开发中的冲突，还能使代码版本管理更加清晰规范。掌握了 Git 分支的基本操作和最佳实践，你将能够在日常开发中更加高效地工作，同时确保项目的稳定性和可维护性。</p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git配置代理</title>
-    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<p>几行命令就能搞定</p>
-<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">config</span> <span class="comment">--global -l</span></span><br></pre></td></tr></table></figure>
-<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> http<span class="selector-class">.proxy</span> http:<span class="comment">//127.0.0.1:7890</span></span><br><span class="line">git config <span class="attr">--global</span> https<span class="selector-class">.proxy</span> https:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
-<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
-<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> http<span class="selector-class">.proxy</span></span><br><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> https.proxy</span><br></pre></td></tr></table></figure>
-<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
-<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">git config http.proxy http:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
-<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
-<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
-]]></content>
-      <categories>
-        <category>git</category>
-        <category>代理配置</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>代理配置</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Uniapp-1</title>
     <url>/2025/03/26/Uniapp-1/</url>
     <content><![CDATA[<h1 id="🚀-为什么微信小程序不能使用-Axios？及最佳解决方案"><a href="#🚀-为什么微信小程序不能使用-Axios？及最佳解决方案" class="headerlink" title="🚀 为什么微信小程序不能使用 Axios？及最佳解决方案"></a>🚀 为什么微信小程序不能使用 Axios？及最佳解决方案</h1><p>在微信小程序开发中，许多开发者习惯使用 <code>Axios</code> 进行 HTTP 请求，却常常遇到兼容性问题。本文将深入分析原因，并介绍更优的解决方案。</p>
@@ -388,16 +223,183 @@
       </tags>
   </entry>
   <entry>
-    <title>大黑山程序猿养殖基地</title>
-    <url>/2024/12/29/hello-world/</url>
-    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
+    <title>NestJS Packaging: Default vs Static</title>
+    <url>/2025/09/11/NestJS-Packaging-Default-vs-Static/</url>
+    <content><![CDATA[<h2 id="1-默认打包（Default-build）"><a href="#1-默认打包（Default-build）" class="headerlink" title="1. 默认打包（Default build）"></a>1. 默认打包（Default build）</h2><p>运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>打包完成后常见的部署方式是将下列内容拷贝到服务器：</p>
+<ul>
+<li><code>.next</code> 目录</li>
+<li><code>node_modules</code>（完整依赖）</li>
+<li><code>public</code> 目录</li>
+<li><code>package.json</code></li>
+</ul>
+<p>然后在服务器上安装 Node.js 并运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+
+<p>这种方式部署简单，但要拷贝完整的 <code>node_modules</code>，在大型项目中会导致部署包很大（例：整个项目 356MB，node_modules 占 303MB）。如果删除 <code>node_modules</code>，服务将无法启动，因为服务端运行时依赖缺失。</p>
+<h2 id="2-静态导出（Static-export-out）"><a href="#2-静态导出（Static-export-out）" class="headerlink" title="2. 静态导出（Static export &#x2F; out）"></a>2. 静态导出（Static export &#x2F; <code>out</code>）</h2><p>适用于只使用 Next.js 静态页面且不依赖 server-side API 的场景。</p>
+<p>在 <code>next.config.mjs</code> 中设置：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">output</span>: <span class="string">&#x27;export&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>会在项目根生成 <code>out/</code> 目录（纯静态文件）。将 <code>out</code> 部署到静态服务器或通过 Nginx&#x2F;CDN 提供即可。静态站点无需拷贝 <code>node_modules</code>。</p>
+<p>注意：如果页面使用了动态接口或强制动态（如 <code>export const dynamic = &#39;force-dynamic&#39;</code>、或依赖 POST、cookies&#x2F;headers 等运行时行为），则无法完全静态导出，会产生冲突或缺失动态逻辑。</p>
+<h2 id="3-Standalone（单独部署，可减少依赖体积）"><a href="#3-Standalone（单独部署，可减少依赖体积）" class="headerlink" title="3. Standalone（单独部署，可减少依赖体积）"></a>3. Standalone（单独部署，可减少依赖体积）</h2><p>当项目包含 SSR 或 server API，但你希望减小部署体积时，可使用 <code>output: &#39;standalone&#39;</code>：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">output</span>: <span class="string">&#x27;standalone&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>构建结果会在 <code>.next</code> 下生成 <code>standalone/</code>（包含 <code>server.js</code> 和运行时需要的精简 <code>node_modules</code>）以及 <code>static/</code>（前端静态资源）。部署步骤：</p>
+<ol>
+<li>将 <code>.next\standalone</code> 整个目录拷到目标服务器（或容器镜像）。</li>
+<li>将 <code>.next\static</code> 拷到 <code>standalone\.next\static</code>。</li>
+<li>将 <code>public</code> 拷到 <code>standalone\public</code>。</li>
+<li>在 <code>standalone</code> 目录运行：</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">node server.js</span><br></pre></td></tr></table></figure>
+
+<p>示例 Windows 拷贝命令（可替换为 <code>robocopy</code>）：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">robocopy .next\static standalone\.next\static /E</span><br><span class="line">robocopy public standalone\public /E</span><br></pre></td></tr></table></figure>
+
+<p>优点：</p>
+<ul>
+<li>只包含服务端运行必须的依赖，体积显著减小（示例：19MB）。</li>
+<li>部署更快，网络传输成本低。</li>
+</ul>
+<p>限制与注意事项：</p>
+<ul>
+<li>目标环境仍需安装 Node.js。</li>
+<li><code>standalone</code> 会带上运行时必须的 native 模块和 server-side 依赖，但不是零依赖。</li>
+<li>若项目中有需要在构建时或运行时才安装的可选依赖，需额外处理。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>纯前端静态站点（<code>out</code> &#x2F; SSG）无需 <code>node_modules</code>，直接部署静态文件即可。</li>
+<li>SSR&#x2F;API 场景可以使用 <code>standalone</code> 来减少需要拷贝的依赖；否则需要在服务器安装完整依赖或拷贝 <code>node_modules</code>。</li>
+<li>根据是否需要动态运行时（POST、cookies、headers、服务端 API）选择合适的输出模式。</li>
+</ul>
 ]]></content>
       <categories>
-        <category>吐槽</category>
+        <category>技术</category>
       </categories>
       <tags>
-        <tag>萌新</tag>
-        <tag>吐槽</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git配置代理</title>
+    <url>/2025/03/23/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>几行命令就能搞定</p>
+<h2 id="1、查看-Git-全局配置项"><a href="#1、查看-Git-全局配置项" class="headerlink" title="1、查看 Git 全局配置项"></a>1、查看 Git 全局配置项</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">config</span> <span class="comment">--global -l</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、设置-http、https-全局代理"><a href="#2、设置-http、https-全局代理" class="headerlink" title="2、设置 http、https 全局代理"></a>2、设置 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> http<span class="selector-class">.proxy</span> http:<span class="comment">//127.0.0.1:7890</span></span><br><span class="line">git config <span class="attr">--global</span> https<span class="selector-class">.proxy</span> https:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
+<p>这里的7890改成你自己的http代理，如果你是用的是V2ray的haul应该是在左下角，类似于这样<code>[http:7890]</code></p>
+<h2 id="3、取消-http、https-全局代理"><a href="#3、取消-http、https-全局代理" class="headerlink" title="3、取消 http、https 全局代理"></a>3、取消 http、https 全局代理</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> http<span class="selector-class">.proxy</span></span><br><span class="line">git config <span class="attr">--global</span> <span class="attr">--unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+<h2 id="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"><a href="#4、除了全局代理外，我们还可以针对单个仓库添加局部代理" class="headerlink" title="4、除了全局代理外，我们还可以针对单个仓库添加局部代理"></a>4、除了全局代理外，我们还可以针对单个仓库添加局部代理</h2><p>首先，切换到需要设置代理的git仓库目录下，然后执行以下命令：</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">git config http.proxy http:<span class="comment">//127.0.0.1:7890</span></span><br></pre></td></tr></table></figure>
+<p>该命令执行后，该git仓库下所有的git命令都会通过设置的代理服务器进行网络访问。</p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/weixin_44296929/article/details/111242452">https://blog.csdn.net/weixin_44296929/article/details/111242452</a></p>
+<p><a href="https://blog.csdn.net/qq_37544121/article/details/120137996">https://blog.csdn.net/qq_37544121/article/details/120137996</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+        <category>代理配置</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>代理配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git分支处理指北</title>
+    <url>/2025/03/25/git%E5%88%86%E6%94%AF%E5%A4%84%E7%90%86%E6%8C%87%E5%8C%97/</url>
+    <content><![CDATA[<h1 id="Git-分支管理：为什么、如何使用，以及最佳实践"><a href="#Git-分支管理：为什么、如何使用，以及最佳实践" class="headerlink" title="Git 分支管理：为什么、如何使用，以及最佳实践"></a>Git 分支管理：为什么、如何使用，以及最佳实践</h1><p>Git 是当前最流行的分布式版本控制系统，广泛应用于开发团队中进行源代码管理。与其说 Git 是一个简单的版本控制工具，不如说它是开发人员的强大助手，尤其是在分支管理方面。Git 的分支操作允许我们并行开发，保持代码整洁，避免互相干扰，从而提高开发效率。在这篇文章中，我们将深入探讨 Git 分支的基本概念、操作流程以及一些最佳实践，帮助你更好地理解如何高效地管理 Git 分支。</p>
+<h2 id="为什么要使用-Git-分支？"><a href="#为什么要使用-Git-分支？" class="headerlink" title="为什么要使用 Git 分支？"></a>为什么要使用 Git 分支？</h2><h3 id="1-并行开发"><a href="#1-并行开发" class="headerlink" title="1. 并行开发"></a>1. 并行开发</h3><p>分支是 Git 中非常强大的功能，它允许多个开发人员同时进行不同的任务而不影响彼此的工作。例如，开发人员可以在一个分支上修复 bug，另一个开发人员可以在另一个分支上实现新功能，而主分支（通常是 <code>main</code> 或 <code>master</code>）依然保持稳定。完成工作后，通过合并（merge）操作，可以将各自的工作成果合并到主分支上。</p>
+<h3 id="2-代码隔离与安全"><a href="#2-代码隔离与安全" class="headerlink" title="2. 代码隔离与安全"></a>2. 代码隔离与安全</h3><p>在没有分支的情况下，开发人员可能会直接在主分支上进行工作，这样一旦开发过程中出现问题，就可能会影响到其他开发人员或者是生产环境。而通过创建独立的分支来开发新功能或者修复 bug，可以有效避免这类问题。分支的存在使得每个功能的开发是隔离的，直到完成并且经过测试后再合并到主分支中。</p>
+<h3 id="3-提高协作效率"><a href="#3-提高协作效率" class="headerlink" title="3. 提高协作效率"></a>3. 提高协作效率</h3><p>分支让团队成员能够更加高效地协作。每个开发者都可以在自己的分支上进行开发，互不干扰。当某个开发者的工作完成时，只需要将该分支合并回主分支或其他适当的分支，所有的修改就会统一汇聚到一起，而无需担心代码冲突。</p>
+<h3 id="4-版本管理与发布"><a href="#4-版本管理与发布" class="headerlink" title="4. 版本管理与发布"></a>4. 版本管理与发布</h3><p>通过 Git 分支，你可以灵活地管理不同的版本。例如，你可以为每个发布版本创建一个分支，在该分支上进行 bug 修复和功能调整，发布完成后再合并到主分支。同时，开发人员也可以继续在其他分支上进行新功能的开发，确保开发过程的连续性。</p>
+<h2 id="Git-分支操作详解"><a href="#Git-分支操作详解" class="headerlink" title="Git 分支操作详解"></a>Git 分支操作详解</h2><p>在了解了为什么要使用 Git 分支之后，接下来我们详细介绍 Git 分支的常用操作，包括创建、切换、合并、删除分支等。</p>
+<h3 id="1-创建分支"><a href="#1-创建分支" class="headerlink" title="1. 创建分支"></a>1. 创建分支</h3><p>要开始使用 Git 分支，首先需要创建一个新的分支。你可以使用 <code>git branch</code> 命令来创建一个新分支。例如，如果你想创建一个名为 <code>feature-xyz</code> 的分支，可以运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch feature-xyz</span><br></pre></td></tr></table></figure>
+
+<p>这条命令会创建一个名为 <code>feature-xyz</code> 的分支，但它不会切换到这个分支。你仍然处于当前分支(如果你是在master分支下运行的话你现在还在master下)上。</p>
+<p>如果你希望在创建分支的同时切换到该分支，可以使用 <code>git checkout -b</code> 命令，或者在较新的 Git 版本中，使用 <code>git switch</code> 命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b feature-xyz</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">git switch -c feature-xyz</span><br></pre></td></tr></table></figure>
+
+<p>这将创建 <code>feature-xyz</code> 分支，并自动切换到该分支。</p>
+<h3 id="2-切换分支"><a href="#2-切换分支" class="headerlink" title="2. 切换分支"></a>2. 切换分支</h3><p>当你创建了多个分支之后，可能需要在它们之间切换。切换分支可以通过 <code>git checkout</code> 或 <code>git switch</code> 命令来实现。</p>
+<p>如果你已经有了 <code>feature-xyz</code> 分支并希望切换到它，可以运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout feature-xyz</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">git switch feature-xyz</span><br></pre></td></tr></table></figure>
+
+<p>这将使得当前工作目录切换到 <code>feature-xyz</code> 分支。需要注意的是，Git 会检查你当前的工作目录是否有未提交的更改，如果有，Git 会提示你先提交更改或进行其他操作，以避免丢失修改。</p>
+<h3 id="3-查看分支"><a href="#3-查看分支" class="headerlink" title="3. 查看分支"></a>3. 查看分支</h3><p>你可以使用 <code>git branch</code> 命令查看所有本地分支。例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
+
+<p>此命令将列出所有本地分支，并用 <code>*</code> 标记当前所在的分支。如果你想查看远程分支，可以使用 <code>-r</code> 选项：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -r</span><br></pre></td></tr></table></figure>
+
+<p>如果你想查看本地和远程的所有分支，可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-合并分支"><a href="#4-合并分支" class="headerlink" title="4. 合并分支"></a>4. 合并分支</h3><p>分支的真正魅力在于它的合并（merge）功能。合并分支允许你将两个分支的工作合并到一起。</p>
+<p>假设你已经在 <code>feature-xyz</code> 分支上完成了某个功能开发，现在需要将它合并到 <code>main</code> 分支。首先，切换到目标分支 <code>main</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br></pre></td></tr></table></figure>
+
+<p>然后，使用 <code>git merge</code> 命令将 <code>feature-xyz</code> 分支的更改合并到 <code>main</code> 分支：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge feature-xyz</span><br></pre></td></tr></table></figure>
+
+<p>如果合并没有冲突，Git 会自动将两者的更改整合在一起。若存在冲突，Git 会提示你手动解决冲突，通常是通过编辑冲突文件，选择保留哪些更改，最后标记为已解决并提交合并。</p>
+<h3 id="5-删除分支"><a href="#5-删除分支" class="headerlink" title="5. 删除分支"></a>5. 删除分支</h3><p>当一个分支的工作完成并且已经合并到主分支之后，通常需要删除该分支以保持仓库的整洁。你可以使用 <code>git branch -d</code> 命令来删除本地分支：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -d feature-xyz</span><br></pre></td></tr></table></figure>
+
+<p>如果分支没有完全合并，<code>git branch -d</code> 会阻止删除操作，防止丢失未合并的工作。如果你确定要删除该分支，可以使用 <code>-D</code> 强制删除：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -D feature-xyz</span><br></pre></td></tr></table></figure>
+
+<p>删除远程分支可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin --delete feature-xyz</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-推送和拉取分支"><a href="#6-推送和拉取分支" class="headerlink" title="6. 推送和拉取分支"></a>6. 推送和拉取分支</h3><h4 id="推送分支"><a href="#推送分支" class="headerlink" title="推送分支"></a>推送分支</h4><p>如果你在本地创建了一个新分支，并希望将其推送到远程仓库，可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin feature-xyz</span><br></pre></td></tr></table></figure>
+
+<p>这将把 <code>feature-xyz</code> 分支推送到远程仓库，并建立本地和远程分支之间的追踪关系。</p>
+<h4 id="拉取分支"><a href="#拉取分支" class="headerlink" title="拉取分支"></a>拉取分支</h4><p>当其他人将更改推送到远程分支时，你需要拉取这些更改。你可以使用以下命令从远程仓库拉取最新的分支更新：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull origin feature-xyz</span><br></pre></td></tr></table></figure>
+
+<h4 id="大致流程示例"><a href="#大致流程示例" class="headerlink" title="大致流程示例"></a>大致流程示例</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout back || git checkout -b back  <span class="comment"># 切换或创建分支back</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;修改描述&quot;</span> <span class="comment">#填入你写的修改描述</span></span><br><span class="line"><span class="comment"># git pull origin back  可选，推荐先拉取</span></span><br><span class="line">git push origin back  <span class="comment"># 首次推送用 git push -u origin back</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Git-分支的最佳实践"><a href="#Git-分支的最佳实践" class="headerlink" title="Git 分支的最佳实践"></a>Git 分支的最佳实践</h2><ol>
+<li><strong>保持主分支干净</strong>：所有功能开发应该在独立的分支上进行，确保主分支始终保持可用和稳定。</li>
+<li><strong>频繁合并</strong>：定期将其他分支的更改合并到你的分支中，避免冲突积累得太多。</li>
+<li><strong>小而频繁的提交</strong>：尽量避免在分支上进行大规模的开发，应该进行小而频繁的提交，这样在合并时更容易解决冲突。</li>
+<li><strong>命名规范</strong>：为分支命名时，建议采用清晰且一致的命名规则，例如 <code>feature/xyz</code>、<code>bugfix/abc</code> 等。</li>
+</ol>
+<h2 id="合并冲突"><a href="#合并冲突" class="headerlink" title="合并冲突"></a>合并冲突</h2><p>不想敲了直接上图<br><img src="/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-1.png" alt="合并冲突-1"><br><img src="/images/git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-2.png" alt="合并冲突-2"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Git 的分支管理功能为开发团队提供了极大的灵活性和效率，能够帮助我们在独立的环境中进行并行开发、代码隔离和协作。通过合理地使用 Git 分支，不仅能够减少开发中的冲突，还能使代码版本管理更加清晰规范。掌握了 Git 分支的基本操作和最佳实践，你将能够在日常开发中更加高效地工作，同时确保项目的稳定性和可维护性。</p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客插入图片的办法</title>
+    <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
+<p><img src="/images/1.jpg" alt="图片" title="原神"></p>
+<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>缺点是当文章很多时，各个文章的图片都在同一文件夹，<strong>不便管理</strong>。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -422,58 +424,16 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo博客插入图片的办法</title>
-    <url>/2025/03/24/hexo%E5%8D%9A%E5%AE%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="方法：全局资源文件夹"><a href="#方法：全局资源文件夹" class="headerlink" title="方法：全局资源文件夹"></a>方法：全局资源文件夹</h1><p>在hexo文件夹下的source目录下，新建一个文件夹叫images(名字随意)，将要插入的图片放在该文件夹中。<br>md文档内，使用<code>![图片](图片链接地址 &quot;图片title&quot;)</code>的格式，圆括号内的链接地址写(&#x2F;images&#x2F;name.jpeg)。<br>这里的 &#x2F; 指的是根目录，对于hexo，资源文件的根目录就是source。</p>
-<p><img src="/images/1.jpg" alt="图片" title="原神"></p>
-<h1 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h1><p>缺点是当文章很多时，各个文章的图片都在同一文件夹，<strong>不便管理</strong>。</p>
+    <title>大黑山程序猿养殖基地</title>
+    <url>/2024/12/29/hello-world/</url>
+    <content><![CDATA[<p>堂堂985大学，辽宁省第一学府，吃食堂居然能食物中毒。。。</p>
 ]]></content>
       <categories>
-        <category>技术</category>
+        <category>吐槽</category>
       </categories>
       <tags>
-        <tag>博客</tag>
-        <tag>技术</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next主题添加代码块复制功能</title>
-    <url>/2025/03/26/next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h1 id="Hexo-Next-代码块复制功能"><a href="#Hexo-Next-代码块复制功能" class="headerlink" title="Hexo Next 代码块复制功能"></a>Hexo Next 代码块复制功能</h1><p>在NexT主题的v6.3版本里已经加入了代码复制这个功能，所以如果你刚开始使用NexT，直接升级主题，并在主题配置文件中打开代码复制的开关就好了，如果版本低于6.3你可以参考以下方式自行添加。</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>在 <code>.\themes\next\source\js\src</code> 目录下新建 <code>clipboard-use.js</code> 文件内容如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*页面载入完成后，创建复制按钮*/</span></span><br><span class="line">!<span class="keyword">function</span> (<span class="params">e, t, a</span>) &#123;</span><br><span class="line">  <span class="comment">/* code */</span></span><br><span class="line">  <span class="keyword">var</span> initCopyCode = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> copyHtml = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;button class=&quot;btn-copy&quot; data-clipboard-snippet=&quot;&quot;&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;  &lt;i class=&quot;fa fa-globe&quot;&gt;&lt;/i&gt;&lt;span&gt;copy&lt;/span&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;/button&gt;&#x27;</span>;</span><br><span class="line">    $(<span class="string">&quot;.highlight&quot;</span>).<span class="title function_">wrap</span>($(<span class="string">&#x27;&lt;div class=&quot;highlight-wrap&quot;&gt;&lt;/div&gt;&#x27;</span>));</span><br><span class="line">    $(<span class="string">&#x27;.highlight-wrap&#x27;</span>).<span class="title function_">prepend</span>(copyHtml);</span><br><span class="line">    <span class="keyword">var</span> clipboard = <span class="keyword">new</span> <span class="title class_">ClipboardJS</span>(<span class="string">&#x27;.btn-copy&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="keyword">function</span>(<span class="params">trigger</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> trigger.<span class="property">nextElementSibling</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 成功提示</span></span><br><span class="line">    clipboard.<span class="title function_">on</span>(<span class="string">&#x27;success&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="title function_">toastPlug</span>(<span class="string">&#x27;复制成功!&#x27;</span>, <span class="number">2000</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">initCopyCode</span>();</span><br><span class="line">&#125;(<span class="variable language_">window</span>, <span class="variable language_">document</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="设置复制按钮样式"><a href="#设置复制按钮样式" class="headerlink" title="设置复制按钮样式"></a>设置复制按钮样式</h2><p>在 <code>.\themes\next\source\css\_custom\custom.styl</code> 样式文件中添加下面代码：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*代码块复制按钮*/</span></span><br><span class="line"><span class="selector-class">.highlight-wrap</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">#fcfcfc</span>,<span class="number">#eee</span>);</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#d5d5d5</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    -webkit-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -moz-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -ms-<span class="attribute">user-select</span>: none;</span><br><span class="line">    <span class="attribute">user-select</span>: none;</span><br><span class="line">    -webkit-<span class="attribute">appearance</span>: none;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">13px</span>;</span><br><span class="line">    <span class="attribute">font-weight</span>: <span class="number">700</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">outline</span>: none;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">    -webkit-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    -o-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">2px</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight-wrap</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.btn-copy</span>&#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h2><p>在 <code>.\themes\next\layout\_layout.swig</code> 文件中，添加引用（注：在 swig 末尾或 body 结束标签（）之前添加）</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 代码块复制功能 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard-use.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注：一开始找的添加复制按钮代码,有一点小bug,如果代码块部分内容超出有横向滑动,复制按钮copy就会跟着移动,而不能固定在右上角，此时只需要将复制按钮和<code>highlight</code>部分外层包裹一个元素，设置<code>position:relative</code>即可。</p>
-<h2 id="v6-3版本-及以上-添加复制的办法"><a href="#v6-3版本-及以上-添加复制的办法" class="headerlink" title="v6.3版本(及以上)添加复制的办法"></a>v6.3版本(及以上)添加复制的办法</h2><p>打开<code>.\themes\next\_config.yml</code>,找到</p>
-<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line"><span class="params">copy_button:</span></span><br><span class="line"><span class="params">enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># Available values: default | flat | mac</span></span><br><span class="line"><span class="params">style:</span></span><br><span class="line"><span class="comment"># Fold code block</span></span><br></pre></td></tr></table></figure>
-<p>把<code>copy_button</code>设置为<code>true</code>即可</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>右键新建excel文件打开失败的问题</title>
-    <url>/2025/06/25/%E5%8F%B3%E9%94%AE%E6%96%B0%E5%BB%BAexcel%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="遭遇"><a href="#遭遇" class="headerlink" title="遭遇"></a>遭遇</h1><p>最近要做个表格，新建了一个xlsx文件，结果告诉我文件格式错误打不开！wk？</p>
-<h1 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h1><p>排查问题之后发现 只有新建“Microsoft Excel 工作表”时会出现这种问题，新建“Word”、“PPT”等文件都没有问题，单独打开Excel在里边选择新建工作表也没问题，独独右键新建的文件出问题。</p>
-<p>由于之前安装过WPS（后来又卸载了），我开始怀疑又是这个出生搞的鬼，是它又把我注册表篡改了？</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>按WIN+R，运行regedit，打开注册表编辑器，然后在HKEY_CLASSES_ROOT下找到.xls和.xlsx</p>
-<p>然后又打开.xlsx下边的ET.Xls.6下边的ShellNew，发现这里的FileName的值也是WPS的，放的是之前WPS的模板路径，将路径复制到文件资源管理器打开，发现找不到路径。这个时候心里已经大致知道咋回事了。然后打开Excel.Sheet.12下边的ShellNew，老样子，赋值FileName的值，发现打开了，打开的是一个空白的Excel文件，文件名：excel12.xlsx，这个应该就是Excel的模板文件了，将这个路径复制粘贴到ET.Xls.6下边的ShellNew的FileName，将原来的值修改为</p>
-<p><code>C:\Program Files\Microsoft Office\Root\VFS\Windows\ShellNew\excel12.xlsx（这个填入你自己的Excel路径）</code>，OK，返回桌面，右键&gt;新建&gt;Microsoft Excel 工作表 ,双击顺利打开！！！</p>
-<p>原因就是之前新建“Microsoft Excel 工作表”的时候，模板是用的WPS的模板，但是这个模板已经找不到了，所以新建的工作表就有问题，导致Excel打不开。</p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>技术</tag>
+        <tag>萌新</tag>
+        <tag>吐槽</tag>
       </tags>
   </entry>
   <entry>
@@ -517,6 +477,46 @@
       <tags>
         <tag>吐槽</tag>
         <tag>乒乓球</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next主题添加代码块复制功能</title>
+    <url>/2025/03/26/next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h1 id="Hexo-Next-代码块复制功能"><a href="#Hexo-Next-代码块复制功能" class="headerlink" title="Hexo Next 代码块复制功能"></a>Hexo Next 代码块复制功能</h1><p>在NexT主题的v6.3版本里已经加入了代码复制这个功能，所以如果你刚开始使用NexT，直接升级主题，并在主题配置文件中打开代码复制的开关就好了，如果版本低于6.3你可以参考以下方式自行添加。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>在 <code>.\themes\next\source\js\src</code> 目录下新建 <code>clipboard-use.js</code> 文件内容如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*页面载入完成后，创建复制按钮*/</span></span><br><span class="line">!<span class="keyword">function</span> (<span class="params">e, t, a</span>) &#123;</span><br><span class="line">  <span class="comment">/* code */</span></span><br><span class="line">  <span class="keyword">var</span> initCopyCode = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> copyHtml = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;button class=&quot;btn-copy&quot; data-clipboard-snippet=&quot;&quot;&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;  &lt;i class=&quot;fa fa-globe&quot;&gt;&lt;/i&gt;&lt;span&gt;copy&lt;/span&gt;&#x27;</span>;</span><br><span class="line">    copyHtml += <span class="string">&#x27;&lt;/button&gt;&#x27;</span>;</span><br><span class="line">    $(<span class="string">&quot;.highlight&quot;</span>).<span class="title function_">wrap</span>($(<span class="string">&#x27;&lt;div class=&quot;highlight-wrap&quot;&gt;&lt;/div&gt;&#x27;</span>));</span><br><span class="line">    $(<span class="string">&#x27;.highlight-wrap&#x27;</span>).<span class="title function_">prepend</span>(copyHtml);</span><br><span class="line">    <span class="keyword">var</span> clipboard = <span class="keyword">new</span> <span class="title class_">ClipboardJS</span>(<span class="string">&#x27;.btn-copy&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="keyword">function</span>(<span class="params">trigger</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> trigger.<span class="property">nextElementSibling</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 成功提示</span></span><br><span class="line">    clipboard.<span class="title function_">on</span>(<span class="string">&#x27;success&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="title function_">toastPlug</span>(<span class="string">&#x27;复制成功!&#x27;</span>, <span class="number">2000</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">initCopyCode</span>();</span><br><span class="line">&#125;(<span class="variable language_">window</span>, <span class="variable language_">document</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="设置复制按钮样式"><a href="#设置复制按钮样式" class="headerlink" title="设置复制按钮样式"></a>设置复制按钮样式</h2><p>在 <code>.\themes\next\source\css\_custom\custom.styl</code> 样式文件中添加下面代码：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*代码块复制按钮*/</span></span><br><span class="line"><span class="selector-class">.highlight-wrap</span>&#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">#fcfcfc</span>,<span class="number">#eee</span>);</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#d5d5d5</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    -webkit-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -moz-<span class="attribute">user-select</span>: none;</span><br><span class="line">    -ms-<span class="attribute">user-select</span>: none;</span><br><span class="line">    <span class="attribute">user-select</span>: none;</span><br><span class="line">    -webkit-<span class="attribute">appearance</span>: none;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">13px</span>;</span><br><span class="line">    <span class="attribute">font-weight</span>: <span class="number">700</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">outline</span>: none;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">    -webkit-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    -o-<span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">transition</span>: opacity .<span class="number">5s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">2px</span> <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">7px</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.btn-copy</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.highlight-wrap</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.btn-copy</span>&#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="引入文件"><a href="#引入文件" class="headerlink" title="引入文件"></a>引入文件</h2><p>在 <code>.\themes\next\layout\_layout.swig</code> 文件中，添加引用（注：在 swig 末尾或 body 结束标签（）之前添加）</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 代码块复制功能 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;/js/src/clipboard-use.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注：一开始找的添加复制按钮代码,有一点小bug,如果代码块部分内容超出有横向滑动,复制按钮copy就会跟着移动,而不能固定在右上角，此时只需要将复制按钮和<code>highlight</code>部分外层包裹一个元素，设置<code>position:relative</code>即可。</p>
+<h2 id="v6-3版本-及以上-添加复制的办法"><a href="#v6-3版本-及以上-添加复制的办法" class="headerlink" title="v6.3版本(及以上)添加复制的办法"></a>v6.3版本(及以上)添加复制的办法</h2><p>打开<code>.\themes\next\_config.yml</code>,找到</p>
+<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line"><span class="params">copy_button:</span></span><br><span class="line"><span class="params">enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># Available values: default | flat | mac</span></span><br><span class="line"><span class="params">style:</span></span><br><span class="line"><span class="comment"># Fold code block</span></span><br></pre></td></tr></table></figure>
+<p>把<code>copy_button</code>设置为<code>true</code>即可</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>右键新建excel文件打开失败的问题</title>
+    <url>/2025/06/25/%E5%8F%B3%E9%94%AE%E6%96%B0%E5%BB%BAexcel%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="遭遇"><a href="#遭遇" class="headerlink" title="遭遇"></a>遭遇</h1><p>最近要做个表格，新建了一个xlsx文件，结果告诉我文件格式错误打不开！wk？</p>
+<h1 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h1><p>排查问题之后发现 只有新建“Microsoft Excel 工作表”时会出现这种问题，新建“Word”、“PPT”等文件都没有问题，单独打开Excel在里边选择新建工作表也没问题，独独右键新建的文件出问题。</p>
+<p>由于之前安装过WPS（后来又卸载了），我开始怀疑又是这个出生搞的鬼，是它又把我注册表篡改了？</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>按WIN+R，运行regedit，打开注册表编辑器，然后在HKEY_CLASSES_ROOT下找到.xls和.xlsx</p>
+<p>然后又打开.xlsx下边的ET.Xls.6下边的ShellNew，发现这里的FileName的值也是WPS的，放的是之前WPS的模板路径，将路径复制到文件资源管理器打开，发现找不到路径。这个时候心里已经大致知道咋回事了。然后打开Excel.Sheet.12下边的ShellNew，老样子，赋值FileName的值，发现打开了，打开的是一个空白的Excel文件，文件名：excel12.xlsx，这个应该就是Excel的模板文件了，将这个路径复制粘贴到ET.Xls.6下边的ShellNew的FileName，将原来的值修改为</p>
+<p><code>C:\Program Files\Microsoft Office\Root\VFS\Windows\ShellNew\excel12.xlsx（这个填入你自己的Excel路径）</code>，OK，返回桌面，右键&gt;新建&gt;Microsoft Excel 工作表 ,双击顺利打开！！！</p>
+<p>原因就是之前新建“Microsoft Excel 工作表”的时候，模板是用的WPS的模板，但是这个模板已经找不到了，所以新建的工作表就有问题，导致Excel打不开。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
       </tags>
   </entry>
   <entry>
@@ -811,6 +811,21 @@
       </tags>
   </entry>
   <entry>
+    <title>简单粗暴解决 Markdown All in One 插件相关问题</title>
+    <url>/2025/08/08/%E7%AE%80%E5%8D%95%E7%B2%97%E6%9A%B4%E8%A7%A3%E5%86%B3-Markdown-All-in-One-%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="删除、回车反应慢"><a href="#删除、回车反应慢" class="headerlink" title="删除、回车反应慢"></a>删除、回车反应慢</h1><p>直接进入Markdown All in One的快捷键配置，删除delete和enter的相应快捷方式，这样应该能解决大部分这类问题。</p>
+<h1 id="复制时转圈"><a href="#复制时转圈" class="headerlink" title="复制时转圈"></a>复制时转圈</h1><p>你懂的，程序员的Ctrl C  Ctrl V使用不了是一件非常令人恼火的事情。</p>
+<h2 id="初步办法"><a href="#初步办法" class="headerlink" title="初步办法"></a>初步办法</h2><p>我的建议是，试试看把Markdown All in One卸载重启等<br>如果还是解决不了，那么看下面</p>
+<h2 id="调整设置"><a href="#调整设置" class="headerlink" title="调整设置"></a>调整设置</h2><p>取消选择控制是否可以以不同的方式粘贴内容，按图操作，取消勾选<br><img src="/images/md-1.1.png" alt="图片" title="图一"><br><img src="/images/md-1.2.png" alt="图片" title="图二"></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>技术</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记录我第一次配置Android和react-native踩过的坑</title>
     <url>/2025/01/16/%E8%AE%B0%E5%BD%95%E6%88%91%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%85%8D%E7%BD%AEAndroid%E5%92%8Creact-native%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/</url>
     <content><![CDATA[<h3 id="前面全部按照React-Native中文版文档来，这没啥问题"><a href="#前面全部按照React-Native中文版文档来，这没啥问题" class="headerlink" title="前面全部按照React-Native中文版文档来，这没啥问题"></a>前面全部按照React-Native中文版文档来，这没啥问题</h3><h3 id="先启动AVD-顺序别搞错了"><a href="#先启动AVD-顺序别搞错了" class="headerlink" title="先启动AVD,顺序别搞错了"></a>先启动AVD,顺序别搞错了</h3><h3 id="使用-npm-运行-React-Native-项目"><a href="#使用-npm-运行-React-Native-项目" class="headerlink" title="使用 npm 运行 React Native 项目"></a>使用 npm 运行 React Native 项目</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run android</span><br></pre></td></tr></table></figure>
@@ -846,16 +861,28 @@
       </tags>
   </entry>
   <entry>
-    <title>简单粗暴解决 Markdown All in One 插件相关问题</title>
-    <url>/2025/08/08/%E7%AE%80%E5%8D%95%E7%B2%97%E6%9A%B4%E8%A7%A3%E5%86%B3-Markdown-All-in-One-%E6%8F%92%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="删除、回车反应慢"><a href="#删除、回车反应慢" class="headerlink" title="删除、回车反应慢"></a>删除、回车反应慢</h1><p>直接进入Markdown All in One的快捷键配置，删除delete和enter的相应快捷方式，这样应该能解决大部分这类问题。</p>
-<h1 id="复制时转圈"><a href="#复制时转圈" class="headerlink" title="复制时转圈"></a>复制时转圈</h1><p>你懂的，程序员的Ctrl C  Ctrl V使用不了是一件非常令人恼火的事情。</p>
-<h2 id="初步办法"><a href="#初步办法" class="headerlink" title="初步办法"></a>初步办法</h2><p>我的建议是，试试看把Markdown All in One卸载重启等<br>如果还是解决不了，那么看下面</p>
-<h2 id="调整设置"><a href="#调整设置" class="headerlink" title="调整设置"></a>调整设置</h2><p>取消选择控制是否可以以不同的方式粘贴内容，按图操作，取消勾选<br><img src="/images/md-1.1.png" alt="图片" title="图一"><br><img src="/images/md-1.2.png" alt="图片" title="图二"></p>
+    <title>重新校准Windows时间</title>
+    <url>/2026/01/10/%E9%87%8D%E6%96%B0%E6%A0%A1%E5%87%86Windows%E6%97%B6%E9%97%B4/</url>
+    <content><![CDATA[<p>又一次被Windows的系统时间整崩溃：刚点开日历，分秒直接飘出去好几分钟，Steam、Git、证书全在发脾气。自动同步明明开着，却一直报错，真想给它一巴掌。</p>
+<h3 id="解决方案概览"><a href="#解决方案概览" class="headerlink" title="解决方案概览"></a>解决方案概览</h3><p>这次彻底校准时间用的是系统自带的时间服务 <code>w32time</code>。核心思路就是：把服务停掉 → 注销 → 重新注册 → 启动 → 立即同步。为避免权限问题，整个过程必须在管理员身份的 CMD 里执行。</p>
+<h3 id="如何打开管理员-CMD（新手友好）"><a href="#如何打开管理员-CMD（新手友好）" class="headerlink" title="如何打开管理员 CMD（新手友好）"></a>如何打开管理员 CMD（新手友好）</h3><ol>
+<li>按下 <strong>Win+R</strong> 调出“运行”。</li>
+<li>输入 <code>cmd</code>。</li>
+<li>同时按下 <strong>Ctrl+Shift+Enter</strong>。</li>
+<li>弹出用户账户控制时点 <strong>“是”</strong>，这样 CMD 就是管理员权限了。</li>
+</ol>
+<h3 id="具体命令"><a href="#具体命令" class="headerlink" title="具体命令"></a>具体命令</h3><p>管理员 CMD 中依次执行下面几条（可以直接复制整段粘贴）：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">net stop w32time</span><br><span class="line">w32tm /unregister</span><br><span class="line">w32tm /register</span><br><span class="line">net <span class="built_in">start</span> w32time</span><br><span class="line">w32tm /resync /nowait</span><br></pre></td></tr></table></figure>
+
+<p>如果最后一行提示“同步成功”，系统时间就回正了。万一还报错，先确认网络正常，再重复一次上面的流程。</p>
+<h3 id="校准服务器别乱改"><a href="#校准服务器别乱改" class="headerlink" title="校准服务器别乱改"></a>校准服务器别乱改</h3><p>我之前随手换了时间服务器地址，结果不论怎么点“立即更新”都失败。回到默认的 <code>time.windows.com</code> 之后，一次就成功了。路径：<code>设置 → 时间和语言 → 日期和时间 → 其他设置 → Internet 时间</code>。确保服务器就是默认值再同步，成功率高得多。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>Windows 自带服务足够用，不需要第三方软件。</li>
+<li>只要 CMD 在管理员权限下运行，上述命令 1 分钟能全部完成。</li>
+<li>改动过时间服务器的同学记得调回 <code>time.windows.com</code>，否则 <code>w32tm /resync</code> 会直接失败。</li>
+</ul>
+<p>折腾完再看任务栏时间终于不再漂移，心情瞬间舒畅。</p>
 ]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
       <tags>
         <tag>技术</tag>
       </tags>
